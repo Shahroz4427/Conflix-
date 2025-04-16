@@ -11,13 +11,21 @@ Route::middleware(['auth', 'verified'])->prefix('company')->name('company.')->gr
 
     Route::get('/home',CompanyHomeController::class)->name('home');
 
+    Route::get('/calendar',function(){
+
+        return view('company.calendar.index');
+
+    })->name('calendar.index');
+
     Route::resource('case_management', CaseManagementController::class);
 
     Route::get('case_hearing/{case}',[CaseHearingController::class,'index'])->name('case_hearing.index');
 
-    Route::post('case_hearing',[CaseHearingController::class,'store'])->name('case_hearing.store');
+    Route::post('case_hearing/{case}',[CaseHearingController::class,'store'])->name('case_hearing.store');
 
-    Route::delete('case_hearing',[CaseHearingController::class,'destroy'])->name('case_hearing.delete');
+    Route::put('case_hearing/{caseHearing}',[CaseHearingController::class,'update'])->name('case_hearing.update');
+
+    Route::delete('case_hearing/{caseHearing}',[CaseHearingController::class,'destroy'])->name('case_hearing.destroy');
 
     Route::resource('clients', ClientController::class);
 

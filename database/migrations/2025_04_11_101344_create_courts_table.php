@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('courts', function (Blueprint $table) {
             $table->id();
+            $table->string('nature_of_court_date')->nullable();
             $table->string('name');
             $table->timestamps();
         });

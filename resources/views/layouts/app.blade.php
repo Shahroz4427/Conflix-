@@ -99,7 +99,24 @@
     .navbar-vertical .navbar-nav .nav-link.active {
         width: 94% !important;
     }
+
+    .modal-backdrop.show {
+        z-index: 99999 !important;
+        /* Default Bootstrap modal is 1050 */
+    }
+
+    .modal {
+        z-index: 999999 !important;
+    }
+
+    /* Optional: make sure dropdowns/tooltips/popovers don't overlap modals */
+    .dropdown-menu,
+    .popover,
+    .tooltip {
+        z-index: 1040 !important;
+    }
     </style>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -141,6 +158,7 @@
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.1.0') }}"></script>
+    
 </body>
 
 </html>

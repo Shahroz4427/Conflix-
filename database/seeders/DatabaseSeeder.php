@@ -83,24 +83,29 @@ class DatabaseSeeder extends Seeder
             ]
         ]);
 
-        
+      
         DB::table('courts')->insert([
             [
+                'nature_of_court_date'=>'option 1',
                 'name' => 'Superior',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'nature_of_court_date'=>'option 2',
                 'name' => 'State',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'nature_of_court_date'=>'option 3',
                 'name' => 'Probate',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
+
+     
 
     }
 }

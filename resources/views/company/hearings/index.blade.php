@@ -1,4 +1,164 @@
 <x-app-layout>
+    <!-- Add Hearing Modal -->
+    <div class="modal fade" id="addHearingModal" tabindex="-1" aria-labelledby="addHearingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('company.case_hearing.store',$case->id) }}">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addHearingModalLabel">
+                            <i class="bi bi-calendar-event me-2"></i> Add Hearing
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                <li class="text-sm text-white">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
+                        <div class="row g-3">
+
+                            <!-- Hearing Date -->
+                            <div class="col-md-6">
+                                <label for="hearingDate" class="form-label">
+                                    <i class="bi bi-calendar3 me-1"></i> Hearing Date
+                                </label>
+                                <input type="date" class="form-control" id="hearingDate" name="hearing_date">
+                            </div>
+
+                            <!-- Hearing Time -->
+                            <div class="col-md-6">
+                                <label for="hearingTime" class="form-label">
+                                    <i class="bi bi-clock me-1"></i> Hearing Time
+                                </label>
+                                <input type="time" class="form-control" id="hearingTime" name="hearing_time">
+                            </div>
+
+
+                            <!-- Nature of the Court Date -->
+                            <div class="col-md-6">
+                                <label class="text-sm text-black">Nature of the Court Date</label>
+                                <select id="natureSelect" name="nature_of_court_date" class="form-control mb-3">
+                                    <option value="">Select…</option>
+                                    @foreach($courts as $court)
+                                    <option value="{{ $court->nature_of_court_date }}">
+                                        {{ $court->nature_of_court_date }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Court -->
+                            <div class="col-md-6">
+                                <label class="text-sm text-black">Court</label>
+                                <select id="courtSelect" name="court_id" class="form-control mb-3">
+                                    <option value="">Autofilled or Select…</option>
+                                    @foreach($courts as $court)
+                                    <option value="{{ $court->id }}" data-nature="{{ $court->nature_of_court_date }}">
+                                        {{ $court->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-1"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save2 me-1"></i> Save Hearing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Hearing Modal -->
+    <div class="modal fade" id="editHearingModal" tabindex="-1" aria-labelledby="editHearingModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form method="POST" id="editHearingForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editHearingModalLabel">
+                            <i class="bi bi-pencil-square me-2"></i> Edit Hearing
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <!-- Hearing Date -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="bi bi-calendar3 me-1"></i> Hearing Date
+                                </label>
+                                <input type="date" class="form-control" id="editHearingDate" name="hearing_date">
+                            </div>
+
+                            <!-- Hearing Time -->
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="bi bi-clock me-1"></i> Hearing Time
+                                </label>
+                                <input type="time" class="form-control" id="editHearingTime" name="hearing_time">
+                            </div>
+
+                            <!-- Nature -->
+                            <div class="col-md-6">
+                                <label class="text-sm text-black">Nature of the Court Date</label>
+                                <select id="editNatureSelect" name="nature_of_court_date" class="form-control mb-3">
+                                    <option value="">Select…</option>
+                                    @foreach($courts as $court)
+                                    <option value="{{ $court->nature_of_court_date }}">
+                                        {{ $court->nature_of_court_date }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Court -->
+                            <div class="col-md-6">
+                                <label class="text-sm text-black">Court</label>
+                                <select id="editCourtSelect" name="court_id" class="form-control mb-3">
+                                    <option value="">Autofilled or Select…</option>
+                                    @foreach($courts as $court)
+                                    <option value="{{ $court->id }}">{{ $court->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg me-1"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save2 me-1"></i> Update Hearing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <nav class="navbar navbar-expand px-0 ps-3 py-0 shadow-none border-radius-xl fixed-top bg-dark-blue rounded-0 py-3"
         id="navbarBlur">
         <div class="container-fluid px-3">
@@ -6,7 +166,8 @@
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item d-flex align-items-center">
                         <a href="#"
-                            class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2">
+                            class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2"
+                            data-bs-toggle="modal" data-bs-target="#addHearingModal">
                             <span class="d-inline-block me-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                                     width="24px" fill="#000000">
@@ -16,6 +177,7 @@
                             </span>
                             Add Hearing
                         </a>
+
                     </li>
                     <li class="nav-item dropdown d-flex align-items-center ps-2">
                         <a href="#" class="nav-link text-white font-weight-bold px-0" id="navbarDropdown" role="button"
@@ -67,7 +229,7 @@
             <div class="col-12">
                 <div class="row px-3">
                     <div class="col-12">
-                        <h4 class="text-black fs-5 mb-0">Case Hearings</h4>
+                        <h4 class="text-black fs-5 mb-0">{{$client->name}}</h4>
                     </div>
                 </div>
             </div>
@@ -98,80 +260,64 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-center text-xs opacity-7 px-3">
-                                                ID</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7">Court</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7">Case ID</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7">Hearing Date
+                                            <th class="text-uppercase text-secondary text-xs text-center opacity-7">ID
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7">Time</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7">Nature</th>
-                                            <th class="text-center text-uppercase text-secondary text-xs opacity-7">
+                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Court
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Case
+                                                ID</th>
+                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">
+                                                Hearing Date</th>
+                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Time
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">
+                                                Nature</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center opacity-7">
                                                 Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($hearings as $hearing)
                                         <tr>
-                                            <td class="text-center px-3">
-                                                <p class="text-sm mb-0">{{ $hearing->id }}</p>
+                                            <td class="text-sm text-center align-middle">{{ $hearing->id }}</td>
+                                            <td class="text-sm text-start align-middle">
+                                                {{ $hearing->court->name ?? '—' }}</td>
+                                            <td class="text-sm text-start align-middle">
+                                                {{ $hearing->case_management_id }}</td>
+                                            <td class="text-sm text-start align-middle">
+                                                {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
                                             </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $hearing->court->name ?? '—' }}</p>
+                                            <td class="text-sm text-start align-middle">
+                                                {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
                                             </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $hearing->case_management_id }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">
-                                                    {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">
-                                                    {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $hearing->nature_of_court_date ?? '—' }}</p>
-                                            </td>
-                                            <td class="text-center align-middle">
+                                            <td class="text-sm text-start align-middle">
+                                                {{ $hearing->nature_of_court_date ?? '—' }}</td>
+                                            <td class="text-sm text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
-                                                    <a href="{{ route('company.case-hearings.edit', $hearing->id) }}"
-                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
-                                                        title="Edit">
+                                                    <a href="javascript:void(0);"
+                                                        class="text-secondary text-sm editHearingBtn"
+                                                        data-id="{{ $hearing->id }}"
+                                                        data-date="{{ $hearing->hearing_date }}"
+                                                        data-time="{{ $hearing->hearing_time }}"
+                                                        data-nature="{{ $hearing->nature_of_court_date }}"
+                                                        data-court="{{ $hearing->court_id }}"
+                                                        data-action="{{ route('company.case_hearing.update', $hearing->id) }}"
+                                                        data-bs-toggle="tooltip" title="Edit">
                                                         <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
                                                     </a>
 
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('company.case-hearings.show', $hearing->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('company.case-hearings.destroy', $hearing->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this hearing?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-trash me-1"></i> Delete
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    <form
+                                                        action="{{ route('company.case_hearing.destroy', $hearing->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this hearing?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="dropdown-item text-danger p-0 border-0 bg-transparent">
+                                                            <img src="{{ asset('assets/svg/bin-icon.webp') }}"
+                                                                alt="delete" height="24px" width="24px">
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
@@ -182,6 +328,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
 
@@ -194,6 +341,48 @@
         </div>
     </div>
 
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.editHearingBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Get values from data attributes
+                const id = this.dataset.id;
+                const date = this.dataset.date;
+                const time = this.dataset.time;
+                const nature = this.dataset.nature;
+                const court = this.dataset.court;
+                const actionUrl = this.dataset.action;
+
+                // Populate the form
+                document.getElementById('editHearingDate').value = date;
+                document.getElementById('editHearingTime').value = time;
+                document.getElementById('editNatureSelect').value = nature;
+                document.getElementById('editCourtSelect').value = court;
+
+                // Set form action
+                document.getElementById('editHearingForm').action = actionUrl;
+
+                // Show the modal
+                const editModal = new bootstrap.Modal(document.getElementById(
+                    'editHearingModal'));
+                editModal.show();
+            });
+        });
+    });
+    </script>
+
+
+
+    @if ($errors->any())
+    <script>
+    // If there are validation errors, reopen the modal
+    document.addEventListener("DOMContentLoaded", function() {
+        var modal = new bootstrap.Modal(document.getElementById('addHearingModal'));
+        modal.show();
+    });
+    </script>
+    @endif
     {{-- Search Script --}}
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -204,7 +393,7 @@
 
             rows.forEach(row => {
                 const courtName = row.querySelector('td:nth-child(2)').textContent
-            .toLowerCase();
+                    .toLowerCase();
                 const caseId = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
                 if (courtName.includes(searchValue) || caseId.includes(searchValue)) {
                     row.style.display = '';
@@ -215,4 +404,26 @@
         });
     });
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const natureSelect = document.getElementById('natureSelect');
+        const courtSelect = document.getElementById('courtSelect');
+
+        natureSelect.addEventListener('change', function() {
+            const selectedNature = this.value;
+
+            // Loop through court options to find a match
+            for (let option of courtSelect.options) {
+                if (option.dataset.nature === selectedNature) {
+                    courtSelect.value = option.value;
+                    return;
+                }
+            }
+
+            // If no match, reset the court select
+            courtSelect.value = "";
+        });
+    });
+    </script>
+
 </x-app-layout>
