@@ -4,7 +4,7 @@
         <div class="container-fluid px-3">
             <div class="collapse navbar-collapse justify-content-end mt-sm-0 me-md-0" id="navbar">
                 <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item d-flex align-items-center">                        
+                    <li class="nav-item d-flex align-items-center">
                         <a href="{{ route('company.case_management.create') }}"
                             class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2">
                             <span class="d-inline-block me-1">
@@ -115,7 +115,7 @@
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <div id="caseTableWrapper">
+                            <div class="table-responsive" id="caseTableWrapper">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
@@ -163,9 +163,10 @@
                                                         class="text-secondary text-sm">
                                                         <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
                                                     </a>
-                                                    <div class="dropdown">
+
+                                                    <div class="dropdown position-relative">
                                                         <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown">
+                                                            data-bs-toggle="dropdown" data-bs-display="static">
                                                             <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
                                                                 alt="more">
                                                         </a>
@@ -191,6 +192,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -223,13 +225,13 @@
 
             rows.forEach(row => {
                 const caseNumber = row.querySelector('td:nth-child(2)').textContent
-                .toLowerCase();
+                    .toLowerCase();
                 const clientName = row.querySelector('td:nth-child(3)').textContent
-                .toLowerCase();
+                    .toLowerCase();
                 const lawyerName = row.querySelector('td:nth-child(4)').textContent
-                .toLowerCase();
+                    .toLowerCase();
                 const judgeName = row.querySelector('td:nth-child(5)').textContent
-            .toLowerCase();
+                    .toLowerCase();
 
                 if (caseNumber.includes(searchValue) || clientName.includes(searchValue) ||
                     lawyerName.includes(searchValue) || judgeName.includes(searchValue)) {

@@ -1,5 +1,5 @@
 <x-app-layout :routePrefix="auth()->user()->user_type=='admin' ? 'admin' : 'company'">
-<nav class="navbar navbar-expand px-0 ps-3 py-0 shadow-none border-radius-xl fixed-top bg-dark-blue rounded-0 py-3"
+    <nav class="navbar navbar-expand px-0 ps-3 py-0 shadow-none border-radius-xl fixed-top bg-dark-blue rounded-0 py-3"
         id="navbarBlur">
         <div class="container-fluid px-3">
             <div class="collapse navbar-collapse justify-content-end mt-sm-0 me-md-0" id="navbar">
@@ -50,9 +50,9 @@
 
         {{-- Display status message if any --}}
         @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
         @endif
 
         <div class="row">
@@ -69,18 +69,20 @@
                             <!-- Name -->
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control" required autofocus>
+                                <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}"
+                                    class="form-control" required autofocus>
                                 @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <!-- Email -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" required>
+                                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}"
+                                    class="form-control" required>
                                 @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -93,7 +95,7 @@
                                 <label for="old_password" class="form-label">Current Password</label>
                                 <input id="old_password" type="password" name="old_password" class="form-control">
                                 @error('old_password')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -102,19 +104,26 @@
                                 <label for="password" class="form-label">New Password</label>
                                 <input id="password" type="password" name="password" class="form-control">
                                 @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
                             <!-- Confirm Password -->
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Confirm New Password</label>
-                                <input id="password_confirmation" type="password" name="password_confirmation" class="form-control">
+                                <input id="password_confirmation" type="password" name="password_confirmation"
+                                    class="form-control">
                             </div>
 
                             <!-- Save Button -->
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <div class="text-center">
+                                    <button type="submit"
+                                        class="btn btn-sm bg-dark-blue btn-rounded mb-0 text-white p-0 d-flex justify-content-center align-items-center"
+                                        style="width: 116px; height: 44px; font-size: 15px;">
+                                        Save
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

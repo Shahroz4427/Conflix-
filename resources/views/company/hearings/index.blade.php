@@ -72,15 +72,24 @@
                         </div>
 
                     </div>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg me-1"></i> Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save2 me-1"></i> Save Hearing
-                        </button>
+                        <div class="text-center me-2">
+                            <button type="button"
+                                class="btn btn-sm btn-rounded mb-0 bg-white p-0 d-flex justify-content-center align-items-center"
+                                data-bs-dismiss="modal"
+                                style="width: 116px; height: 44px; border: 2px solid #012568; color: #012568; font-size: 15px;">
+                                <i class="bi bi-x-lg me-1"></i> Cancel
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit"
+                                class="btn btn-sm bg-dark-blue btn-rounded mb-0 text-white p-0 d-flex justify-content-center align-items-center"
+                                style="width: 116px; height: 44px; font-size: 15px;">
+                                <i class="bi bi-save2 me-1"></i> Save
+                            </button>
+                        </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -145,12 +154,21 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg me-1"></i> Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save2 me-1"></i> Update Hearing
-                        </button>
+                        <div class="text-center me-2">
+                            <button type="button"
+                                class="btn btn-sm btn-rounded mb-0 bg-white p-0 d-flex justify-content-center align-items-center"
+                                data-bs-dismiss="modal"
+                                style="width: 116px; height: 44px; border: 2px solid #012568; color: #012568; font-size: 15px;">
+                                <i class="bi bi-x-lg me-1"></i> Cancel
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit"
+                                class="btn btn-sm bg-dark-blue btn-rounded mb-0 text-white p-0 d-flex justify-content-center align-items-center"
+                                style="width: 116px; height: 44px; font-size: 15px;">
+                                <i class="bi bi-save2 me-1"></i> Save
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -256,43 +274,45 @@
                 <div class="card mb-4">
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <div id="hearingTableWrapper">
+                            <div class="table-responsive" id="hearingTableWrapper">
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xs text-center opacity-7">ID
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Court
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Case
-                                                ID</th>
-                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">
-                                                Hearing Date</th>
-                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">Time
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xs text-start opacity-7">
-                                                Nature</th>
-                                            <th class="text-uppercase text-secondary text-xs text-center opacity-7">
-                                                Actions</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center px-3">ID</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Court</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Case ID</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Hearing Date</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Time</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Nature</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($hearings as $hearing)
                                         <tr>
-                                            <td class="text-sm text-center align-middle">{{ $hearing->id }}</td>
-                                            <td class="text-sm text-start align-middle">
-                                                {{ $hearing->court->name ?? '—' }}</td>
-                                            <td class="text-sm text-start align-middle">
-                                                {{ $hearing->case_management_id }}</td>
-                                            <td class="text-sm text-start align-middle">
-                                                {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
+                                            <td class="text-center px-3">
+                                                <p class="text-sm mb-0">{{ $hearing->id }}</p>
                                             </td>
-                                            <td class="text-sm text-start align-middle">
-                                                {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
+                                            <td>
+                                                <p class="text-sm mb-0">{{ $hearing->court->name ?? '—' }}</p>
                                             </td>
-                                            <td class="text-sm text-start align-middle">
-                                                {{ $hearing->nature_of_court_date ?? '—' }}</td>
-                                            <td class="text-sm text-center align-middle">
+                                            <td>
+                                                <p class="text-sm mb-0">{{ $hearing->case_management_id }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm mb-0">
+                                                    {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm mb-0">
+                                                    {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="text-sm mb-0">{{ $hearing->nature_of_court_date ?? '—' }}</p>
+                                            </td>
+                                            <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                                     <a href="javascript:void(0);"
                                                         class="text-secondary text-sm editHearingBtn"
@@ -305,7 +325,6 @@
                                                         data-bs-toggle="tooltip" title="Edit">
                                                         <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
                                                     </a>
-
                                                     <form
                                                         action="{{ route('company.case_hearing.destroy', $hearing->id) }}"
                                                         method="POST"
@@ -328,6 +347,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
 
                             </div>
                         </div>

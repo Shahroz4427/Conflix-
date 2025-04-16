@@ -115,7 +115,44 @@
     .tooltip {
         z-index: 1040 !important;
     }
+
+    .conflict-card {
+        border-left: 4px solid #012568;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-tabs .nav-link.active {
+        font-weight: bold;
+        border-bottom: 3px solid #012568;
+    }
+
+    .record-card {
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .allow-dropdown-overflow {
+        position: relative;
+        overflow: visible !important;
+        z-index: 10;
+    }
+
+    .table-responsive {
+        overflow: visible !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    .table-responsive .dropdown-menu {
+        z-index: 1055;
+        /* Bootstrap modal level */
+        position: absolute !important;
+        will-change: transform;
+    }
     </style>
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
 </head>
 
@@ -158,7 +195,17 @@
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.1.0') }}"></script>
-    
+    <script>
+    // Initialize Bootstrap tabs
+    var tabElms = document.querySelectorAll('button[data-bs-toggle="tab"]');
+    tabElms.forEach(function(tabElm) {
+        tabElm.addEventListener('click', function(event) {
+            event.preventDefault();
+            var tab = new bootstrap.Tab(tabElm);
+            tab.show();
+        });
+    });
+    </script>
 </body>
 
 </html>

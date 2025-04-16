@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified','restrictUserType:admin'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/home', AdminHomeController::class)->name('home');
 

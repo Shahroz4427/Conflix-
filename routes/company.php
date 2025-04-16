@@ -7,7 +7,7 @@ use App\Http\Controllers\Company\CompanyHomeController;
 use App\Http\Controllers\Company\LaywerController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified'])->prefix('company')->name('company.')->group(function () {
+Route::middleware(['auth', 'verified','restrictUserType:company'])->prefix('company')->name('company.')->group(function () {
 
     Route::get('/home',CompanyHomeController::class)->name('home');
 
@@ -30,5 +30,11 @@ Route::middleware(['auth', 'verified'])->prefix('company')->name('company.')->gr
     Route::resource('clients', ClientController::class);
 
     Route::resource('lawyers', LaywerController::class);
+
+    Route::get('/conflict_logs',function(){
+
+        return view('company.conflict_logs.index');
+
+    })->name('conflict_logs.index');
 
 });
