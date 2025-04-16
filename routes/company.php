@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Company\CalendarController;
 use App\Http\Controllers\Company\CaseHearingController;
 use App\Http\Controllers\Company\ClientController;
 use App\Http\Controllers\Company\CaseManagementController;
@@ -11,11 +12,7 @@ Route::middleware(['auth', 'verified','restrictUserType:company'])->prefix('comp
 
     Route::get('/home',CompanyHomeController::class)->name('home');
 
-    Route::get('/calendar',function(){
-
-        return view('company.calendar.index');
-
-    })->name('calendar.index');
+    Route::get('/calendar',CalendarController::class)->name('calendar.index');
 
     Route::resource('case_management', CaseManagementController::class);
 

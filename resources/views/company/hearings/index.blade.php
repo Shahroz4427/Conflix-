@@ -4,8 +4,9 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" action="{{ route('company.case_hearing.store',$case->id) }}">
+                <form method="POST" action="{{ route('company.case_hearing.store', $case->id) }}">
                     @csrf
+                    <input type="hidden" name="form_type" value="add">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addHearingModalLabel">
                             <i class="bi bi-calendar-event me-2"></i> Add Hearing
@@ -14,8 +15,7 @@
                     </div>
 
                     <div class="modal-body">
-
-                        @if ($errors->any())
+                        @if ($errors->any() && old('form_type') === 'add')
                         <div class="alert alert-danger">
                             <ul class="mb-0">
                                 @foreach ($errors->all() as $error)
@@ -26,13 +26,13 @@
                         @endif
 
                         <div class="row g-3">
-
                             <!-- Hearing Date -->
                             <div class="col-md-6">
                                 <label for="hearingDate" class="form-label">
                                     <i class="bi bi-calendar3 me-1"></i> Hearing Date
                                 </label>
-                                <input type="date" class="form-control" id="hearingDate" name="hearing_date">
+                                <input type="date" class="form-control" id="hearingDate" name="hearing_date"
+                                    value="{{ old('hearing_date') }}">
                             </div>
 
                             <!-- Hearing Time -->
@@ -40,9 +40,9 @@
                                 <label for="hearingTime" class="form-label">
                                     <i class="bi bi-clock me-1"></i> Hearing Time
                                 </label>
-                                <input type="time" class="form-control" id="hearingTime" name="hearing_time">
+                                <input type="time" class="form-control" id="hearingTime" name="hearing_time"
+                                    value="{{ old('hearing_time') }}">
                             </div>
-
 
                             <!-- Nature of the Court Date -->
                             <div class="col-md-6">
@@ -50,8 +50,10 @@
                                 <select id="natureSelect" name="nature_of_court_date" class="form-control mb-3">
                                     <option value="">Select…</option>
                                     @foreach($courts as $court)
-                                    <option value="{{ $court->nature_of_court_date }}">
-                                        {{ $court->nature_of_court_date }}</option>
+                                    <option value="{{ $court->nature_of_court_date }}"
+                                        {{ old('nature_of_court_date') == $court->nature_of_court_date ? 'selected' : '' }}>
+                                        {{ $court->nature_of_court_date }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -62,16 +64,17 @@
                                 <select id="courtSelect" name="court_id" class="form-control mb-3">
                                     <option value="">Autofilled or Select…</option>
                                     @foreach($courts as $court)
-                                    <option value="{{ $court->id }}" data-nature="{{ $court->nature_of_court_date }}">
-                                        {{ $court->name }}</option>
+                                    <option value="{{ $court->id }}" data-nature="{{ $court->nature_of_court_date }}"
+                                        {{ old('court_id') == $court->id ? 'selected' : '' }}>
+                                        {{ $court->name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
 
-
                         </div>
-
                     </div>
+
                     <div class="modal-footer">
                         <div class="text-center me-2">
                             <button type="button"
@@ -89,11 +92,11 @@
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
     </div>
+
 
     <!-- Edit Hearing Modal -->
     <div class="modal fade" id="editHearingModal" tabindex="-1" aria-labelledby="editHearingModalLabel"
@@ -103,6 +106,9 @@
                 <form method="POST" id="editHearingForm">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="_from_edit" value="1">
+                    <input type="hidden" name="form_type" value="edit">
+
                     <div class="modal-header">
                         <h5 class="modal-title" id="editHearingModalLabel">
                             <i class="bi bi-pencil-square me-2"></i> Edit Hearing
@@ -111,13 +117,24 @@
                     </div>
 
                     <div class="modal-body">
+                        @if ($errors->any() && old('form_type') === 'edit')
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                <li class="text-sm text-white">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+
                         <div class="row g-3">
                             <!-- Hearing Date -->
                             <div class="col-md-6">
                                 <label class="form-label">
                                     <i class="bi bi-calendar3 me-1"></i> Hearing Date
                                 </label>
-                                <input type="date" class="form-control" id="editHearingDate" name="hearing_date">
+                                <input type="date" class="form-control" id="editHearingDate" name="hearing_date"
+                                    value="{{ old('hearing_date') }}">
                             </div>
 
                             <!-- Hearing Time -->
@@ -125,7 +142,8 @@
                                 <label class="form-label">
                                     <i class="bi bi-clock me-1"></i> Hearing Time
                                 </label>
-                                <input type="time" class="form-control" id="editHearingTime" name="hearing_time">
+                                <input type="time" class="form-control" id="editHearingTime" name="hearing_time"
+                                    value="{{ old('hearing_time') }}">
                             </div>
 
                             <!-- Nature -->
@@ -134,8 +152,10 @@
                                 <select id="editNatureSelect" name="nature_of_court_date" class="form-control mb-3">
                                     <option value="">Select…</option>
                                     @foreach($courts as $court)
-                                    <option value="{{ $court->nature_of_court_date }}">
-                                        {{ $court->nature_of_court_date }}</option>
+                                    <option value="{{ $court->nature_of_court_date }}"
+                                        {{ old('nature_of_court_date') == $court->nature_of_court_date ? 'selected' : '' }}>
+                                        {{ $court->nature_of_court_date }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -146,10 +166,14 @@
                                 <select id="editCourtSelect" name="court_id" class="form-control mb-3">
                                     <option value="">Autofilled or Select…</option>
                                     @foreach($courts as $court)
-                                    <option value="{{ $court->id }}">{{ $court->name }}</option>
+                                    <option value="{{ $court->id }}" data-nature="{{ $court->nature_of_court_date }}"
+                                        {{ old('court_id') == $court->id ? 'selected' : '' }}>
+                                        {{ $court->name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
+
                         </div>
                     </div>
 
@@ -174,8 +198,6 @@
             </div>
         </div>
     </div>
-
-
 
     <nav class="navbar navbar-expand px-0 ps-3 py-0 shadow-none border-radius-xl fixed-top bg-dark-blue rounded-0 py-3"
         id="navbarBlur">
@@ -360,6 +382,27 @@
             </div>
         </div>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editNatureSelect = document.getElementById('editNatureSelect');
+        const editCourtSelect = document.getElementById('editCourtSelect');
+
+        if (editNatureSelect && editCourtSelect) {
+            editNatureSelect.addEventListener('change', function () {
+                const selectedNature = this.value;
+
+                for (let option of editCourtSelect.options) {
+                    if (option.dataset.nature === selectedNature) {
+                        editCourtSelect.value = option.value;
+                        return;
+                    }
+                }
+
+                editCourtSelect.value = "";
+            });
+        }
+    });
+</script>
 
 
     <script>
@@ -392,14 +435,16 @@
     });
     </script>
 
-
-
     @if ($errors->any())
     <script>
-    // If there are validation errors, reopen the modal
-    document.addEventListener("DOMContentLoaded", function() {
-        var modal = new bootstrap.Modal(document.getElementById('addHearingModal'));
-        modal.show();
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(old('form_type') === 'add')
+        var addModal = new bootstrap.Modal(document.getElementById('addHearingModal'));
+        addModal.show();
+        @elseif(old('form_type') === 'edit')
+        var editModal = new bootstrap.Modal(document.getElementById('editHearingModal'));
+        editModal.show();
+        @endif
     });
     </script>
     @endif
@@ -424,6 +469,7 @@
         });
     });
     </script>
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const natureSelect = document.getElementById('natureSelect');

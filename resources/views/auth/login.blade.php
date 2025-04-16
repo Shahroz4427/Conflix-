@@ -74,7 +74,7 @@
                     <div class="form-group">
                         <label class="d-flex justify-content-between" for="password">
                             <span class="text-sm text-black">Password:</span>
-                            <a href="{{ route('password.request') }}" class="text-sm" style="color: #012a6c;">Forgot password?</a>
+                            <!-- <a href="{{ route('password.request') }}" class="text-sm" style="color: #012a6c;">Forgot password?</a> -->
                         </label>
                         <input type="password" class="form-control" name="password" required placeholder="*******">
                     </div>
