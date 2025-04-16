@@ -41,20 +41,20 @@
         </div>
     </nav>
     <div class="container py-4 px-4">
-        <h1 class="mb-4">Conflict Logs</h1>
+        <h1 class="mb-4 fw-bold     "><i class="bi bi-journal-text me-2"></i>Conflict Logs</h1>
 
         <!-- Nav Tabs -->
-        <ul class="nav nav-tabs mb-4" id="conflictTabs" role="tablist">
+        <ul class="nav nav-tabs nav-fill mb-4 rounded border" id="conflictTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming"
-                    type="button" role="tab" aria-controls="upcoming" aria-selected="true">
-                    Upcoming History
+                <button class="nav-link active fw-semibold" id="upcoming-tab" data-bs-toggle="tab"
+                    data-bs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="true">
+                    <i class="bi bi-clock-history me-1"></i> Upcoming
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="change-tab" data-bs-toggle="tab" data-bs-target="#change" type="button"
-                    role="tab" aria-controls="change" aria-selected="false">
-                    Change Case Details
+                <button class="nav-link fw-semibold" id="change-tab" data-bs-toggle="tab" data-bs-target="#change"
+                    type="button" role="tab" aria-controls="change" aria-selected="false">
+                    <i class="bi bi-clock me-1"></i> History
                 </button>
             </li>
         </ul>
@@ -62,105 +62,77 @@
         <!-- Tab Content -->
         <div class="tab-content" id="conflictTabsContent">
 
-            <!-- Upcoming History Tab -->
+            <!-- Upcoming Tab -->
             <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-                <!-- Conflict Cards -->
-                <div class="row g-3">
-                    <!-- Conflict Item -->
+                <div class="row g-4">
                     <div class="col-12">
-                        <div class="card shadow-sm">
+                        <div class="card border-0 shadow-sm rounded-3">
                             <div class="card-body">
-                                <p class="mb-2">Conflict letter will be sent to: <strong>James Andreson, CN:
-                                        73273793</strong></p>
-                                <ul class="list-unstyled ps-3 mb-0">
-                                    <li>Conflict Between: <strong>CN: 73273793</strong></li>
-                                    <li class="ps-1">43243244</li>
-                                    <li>Conflict Date & Time: <strong>07 April 2025</strong></li>
-                                </ul>
+                                <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
+                                    <div class="mb-3 mb-md-0">
+                                        <p class="mb-2 text-muted"><i class="bi bi-envelope-paper me-1"></i> Conflict
+                                            letter will be sent to:
+                                            <strong class="text-dark">James Andreson, CN: 73273793</strong>
+                                        </p>
+                                        <ul class="list-unstyled ps-3 mb-0 small">
+                                            <li><i class="bi bi-calendar-event me-1"></i> Record Generated on:
+                                                <strong>04 March 2025, 11:15AM</strong></li>
+                                            <li><i class="bi bi-calendar-check me-1"></i> Letter scheduled for:
+                                                <strong>07 March 2025</strong></li>
+                                            <li><i class="bi bi-people me-1"></i> Conflict Between: <strong>CN:
+                                                    73273793</strong>, CN: 43243244</li>
+                                            <li><i class="bi bi-clock me-1"></i> Conflict Date & Time: <strong>07 April
+                                                    2025</strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row gap-2">
+                                        <button class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Change Case Details
+                                        </button>
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="bi bi-send me-1"></i> Send Now
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <p class="mb-2">Conflict letter will be sent to: <strong>Emma Harris, CN:
-                                        42342342</strong></p>
-                                <ul class="list-unstyled ps-3 mb-0">
-                                    <li>Conflict Between: <strong>CN: 42342342</strong></li>
-                                    <li class="ps-1">213323119</li>
-                                    <li>Conflict Date & Time: <strong>23 April 2025</strong></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <p class="mb-2">Conflict letter will be sent to: <strong>William Smith, CN:
-                                        34324328</strong></p>
-                                <ul class="list-unstyled ps-3 mb-0">
-                                    <li>Conflict Between: <strong>CN: 34324328</strong></li>
-                                    <li class="ps-1">39943687</li>
-                                    <li>Conflict Date & Time: <strong>28 April 2025</strong></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <p class="mb-2">Conflict letter will be sent to: <strong>Olivia Brown, CN:
-                                        67787423</strong></p>
-                                <ul class="list-unstyled ps-3 mb-0">
-                                    <li>Conflict Between: <strong>CN: 67787423</strong></li>
-                                    <li class="ps-1">37438743</li>
-                                    <li>Conflict Date & Time: <strong>30 April 2025</strong></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer Record -->
-                    <div class="col-12">
-                        <div class="alert alert-secondary mb-0">
-                            <p class="mb-1">Record Generated on: <strong>04 March 2025</strong>, 11:15AM</p>
-                            <p class="mb-0">Conflict letter scheduled to send on: <strong>07 March 2025</strong></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Change Case Details Tab -->
+            <!-- History Tab -->
             <div class="tab-pane fade" id="change" role="tabpanel" aria-labelledby="change-tab">
-                <div class="row g-3">
+                <div class="row g-4">
                     <div class="col-12">
-                        <div class="alert alert-secondary mb-0">
-                            <p class="mb-1">Record Generated on: <strong>19 February 2025</strong>, 09:08AM</p>
-                            <p class="mb-0">Conflict letter scheduled to send on: <strong>23 March 2025</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="alert alert-secondary mb-0">
-                            <p class="mb-1">Record Generated on: <strong>20 February 2025</strong>, 11:00AM</p>
-                            <p class="mb-0">Conflict letter scheduled to send on: <strong>28 March 2025</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="alert alert-secondary mb-0">
-                            <p class="mb-1">Record Generated on: <strong>21 February 2025</strong>, 4:15PM</p>
-                            <p class="mb-0">Conflict letter scheduled to send on: <strong>30 March 2025</strong></p>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="alert alert-secondary mb-0">
-                            <p class="mb-1">Record Generated on: <strong>27 February 2025</strong>, 4:15PM</p>
-                            <p class="mb-0">Conflict letter scheduled to send on: <strong>30 March 2025</strong></p>
+                        <div class="card border-0 shadow-sm rounded-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
+                                    <div class="mb-3 mb-md-0">
+                                        <p class="mb-2 text-muted"><i class="bi bi-envelope-paper me-1"></i> Conflict
+                                            letter was sent to:
+                                            <strong class="text-dark">James Andreson, CN: 73273793</strong>
+                                        </p>
+                                        <ul class="list-unstyled ps-3 mb-0 small">
+                                            <li><i class="bi bi-calendar-event me-1"></i> Record Generated on:
+                                                <strong>04 March 2025, 11:15AM</strong></li>
+                                            <li><i class="bi bi-calendar-check me-1"></i> Letter was sent on: <strong>07
+                                                    March 2025</strong></li>
+                                            <li><i class="bi bi-people me-1"></i> Conflict Between: <strong>CN:
+                                                    73273793</strong>, CN: 43243244</li>
+                                            <li><i class="bi bi-clock me-1"></i> Conflict Date & Time: <strong>07 April
+                                                    2025</strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row gap-2">
+                                        <button class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Change Case Details
+                                        </button>
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="bi bi-send me-1"></i> Send Again
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -120,13 +120,11 @@
                                     <thead>
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xs text-center px-3">Id</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Case #</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Client</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Client Name</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Case No</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Email Address</th>
                                             <th class="text-uppercase text-secondary text-xs ps-2">Lawyer</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Judge</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Arrest Date</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Indictment</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Incarcerated</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2">Court</th>
                                             <th class="text-center text-uppercase text-secondary text-xs">Actions</th>
                                         </tr>
                                     </thead>
@@ -137,25 +135,26 @@
                                                 <p class="text-sm mb-0">{{ $case->id }}</p>
                                             </td>
                                             <td>
+                                            <a href="{{ route('company.case_hearing.index', $case->id) }}" class="text-sm mb-0 text-black">
+                                            {{ $case->client->name ?? '—' }}
+                                                <span class="ms-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z"></path></svg>
+                                                </span>
+                                            </a>
+                                                
+                                            </td>
+                                            <td>
                                                 <p class="text-sm mb-0">{{ $case->case_number }}</p>
                                             </td>
+
                                             <td>
-                                                <p class="text-sm mb-0">{{ $case->client->name ?? '—' }}</p>
+                                                <p class="text-sm mb-0">{{ $case->client->email ?? '—' }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm mb-0">{{ $case->lawyer->name ?? '—' }}</p>
+                                                <p class="text-sm mb-0">{{ $case->lawyer->name}}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm mb-0">{{ $case->judge ?? '—' }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $case->date_of_arrest}}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $case->date_of_indictment}}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $case->incarcerated ? 'Yes' : 'No' }}</p>
+                                                <p class="text-sm mb-0">{{ $case->court->name}}</p>
                                             </td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">

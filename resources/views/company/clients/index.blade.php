@@ -124,10 +124,8 @@
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Email</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Phone</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Age</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Address
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Added On
-                                            </th>
+
+
                                             <th class="text-center text-uppercase text-secondary text-xs opacity-7">
                                                 Actions</th>
                                         </tr>
@@ -149,12 +147,6 @@
                                             </td>
                                             <td>
                                                 <p class="text-sm mb-0">{{ $client->age ?? '—' }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $client->address ?? '—' }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $client->created_at->format('d M Y') }}</p>
                                             </td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">

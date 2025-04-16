@@ -92,14 +92,12 @@
                                                 class="text-uppercase text-secondary text-center text-xs opacity-7 px-3">
                                                 Id</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Name</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Email</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Phone</th>
+                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Email</th>
+                                        
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">
                                                 Jurisdiction</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Address
-                                            </th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Added On
-                                            </th>
+                                          
                                             <th class="text-center text-uppercase text-secondary text-xs opacity-7">
                                                 Actions</th>
                                         </tr>
@@ -114,20 +112,16 @@
                                                 <p class="text-sm mb-0">{{ $lawyer->name }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-sm mb-0">{{ $lawyer->email ?? '—' }}</p>
-                                            </td>
-                                            <td>
                                                 <p class="text-sm mb-0">{{ $lawyer->phone_number ?? '—' }}</p>
                                             </td>
                                             <td>
+                                                <p class="text-sm mb-0">{{ $lawyer->email ?? '—' }}</p>
+                                            </td>
+                                           
+                                            <td>
                                                 <p class="text-sm mb-0">{{ $lawyer->jurisdiction->title ?? '—' }}</p>
                                             </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $lawyer->address ?? '—' }}</p>
-                                            </td>
-                                            <td>
-                                                <p class="text-sm mb-0">{{ $lawyer->created_at->format('d M Y') }}</p>
-                                            </td>
+                                    
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                                     <a href="{{ route('company.lawyers.edit', $lawyer->id) }}"

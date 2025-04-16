@@ -151,6 +151,7 @@
         position: absolute !important;
         will-change: transform;
     }
+    
     </style>
 
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
@@ -163,21 +164,21 @@
         {{ $slot }}
     </main>
     <script>
-    let dropdowns = document.getElementsByClassName('dropdown');
+        let dropdowns = document.getElementsByClassName('dropdown');
 
-    Array.from(dropdowns).forEach(dropdown => {
-        dropdown.addEventListener('click', function() {
-            let dropdownMenu = this.querySelector('.dropdown-menu');
-            if (dropdownMenu) {
-                dropdownMenu.classList.toggle('d-none');
-            }
+        Array.from(dropdowns).forEach(dropdown => {
+            dropdown.addEventListener('click', function() {
+                let dropdownMenu = this.querySelector('.dropdown-menu');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.toggle('d-none');
+                }
+            });
         });
-    });
     </script>
     <script>
-    document.getElementById("navbarDropdown").addEventListener("click", function() {
-        document.querySelector(".dropdown-menu").classList.toggle("d-none");
-    });
+        document.getElementById("navbarDropdown").addEventListener("click", function() {
+            document.querySelector(".dropdown-menu").classList.toggle("d-none");
+        });
     </script>
 
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -185,26 +186,26 @@
     <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.1.0') }}"></script>
     <script>
-    // Initialize Bootstrap tabs
-    var tabElms = document.querySelectorAll('button[data-bs-toggle="tab"]');
-    tabElms.forEach(function(tabElm) {
-        tabElm.addEventListener('click', function(event) {
-            event.preventDefault();
-            var tab = new bootstrap.Tab(tabElm);
-            tab.show();
+        // Initialize Bootstrap tabs
+        var tabElms = document.querySelectorAll('button[data-bs-toggle="tab"]');
+        tabElms.forEach(function(tabElm) {
+            tabElm.addEventListener('click', function(event) {
+                event.preventDefault();
+                var tab = new bootstrap.Tab(tabElm);
+                tab.show();
+            });
         });
-    });
     </script>
 </body>
 

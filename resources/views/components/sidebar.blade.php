@@ -164,7 +164,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link flex-grow-1 d-flex align-items-center pe-0 me-0 mt-1 " href="">
+                <a class="nav-link flex-grow-1 d-flex align-items-center pe-0 me-0 mt-1 {{ request()->routeIs('profile.edit') ? 'active' : '' }}" " href="{{ route('profile.edit') }}">
                     <div>
                         {{-- Setting  SVG --}}
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 0 24 24" fill="currentColor">
