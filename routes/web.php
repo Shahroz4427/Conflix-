@@ -15,8 +15,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    $user = auth()->user();
+
+    if ($user) {
+        return $user->user_type === 'admin'
+            ? redirect()->route('admin.home')
+            : redirect()->route('company.home');
+    }
+
     return redirect()->route('admin.home');
-})->middleware(['auth','verified']);
+    
+})->middleware(['auth', 'verified']);
+
 
 
 Route::middleware('auth')->group(function () {
