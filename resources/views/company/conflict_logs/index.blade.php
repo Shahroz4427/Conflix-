@@ -40,105 +40,89 @@
             </div>
         </div>
     </nav>
-    <div class="container py-4 px-4">
-        <h1 class="mb-4 fw-bold     "><i class="bi bi-journal-text me-2"></i>Conflict Logs</h1>
+    <div class="container-fluid px-4">
+        <h4 class="fw-bold mb-4 mt-2">Conflict Logs</h4>
 
-        <!-- Nav Tabs -->
-        <ul class="nav nav-tabs nav-fill mb-4 rounded border" id="conflictTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active fw-semibold" id="upcoming-tab" data-bs-toggle="tab"
-                    data-bs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="true">
-                    <i class="bi bi-clock-history me-1"></i> Upcoming
-                </button>
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-4" id="conflictTabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-tab="upcoming">Upcoming</a>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link fw-semibold" id="change-tab" data-bs-toggle="tab" data-bs-target="#change"
-                    type="button" role="tab" aria-controls="change" aria-selected="false">
-                    <i class="bi bi-clock me-1"></i> History
-                </button>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-tab="history">History</a>
             </li>
         </ul>
 
-        <!-- Tab Content -->
-        <div class="tab-content" id="conflictTabsContent">
-
-            <!-- Upcoming Tab -->
-            <div class="tab-pane fade show active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
-                <div class="row g-4">
-                    <div class="col-12">
-                        <div class="card border-0 shadow-sm rounded-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
-                                    <div class="mb-3 mb-md-0">
-                                        <p class="mb-2 text-muted"><i class="bi bi-envelope-paper me-1"></i> Conflict
-                                            letter will be sent to:
-                                            <strong class="text-dark">James Andreson, CN: 73273793</strong>
-                                        </p>
-                                        <ul class="list-unstyled ps-3 mb-0 small">
-                                            <li><i class="bi bi-calendar-event me-1"></i> Record Generated on:
-                                                <strong>04 March 2025, 11:15AM</strong></li>
-                                            <li><i class="bi bi-calendar-check me-1"></i> Letter scheduled for:
-                                                <strong>07 March 2025</strong></li>
-                                            <li><i class="bi bi-people me-1"></i> Conflict Between: <strong>CN:
-                                                    73273793</strong>, CN: 43243244</li>
-                                            <li><i class="bi bi-clock me-1"></i> Conflict Date & Time: <strong>07 April
-                                                    2025</strong></li>
-                                        </ul>
-                                    </div>
-                                    <div class="d-flex flex-column flex-md-row gap-2">
-                                        <button class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square me-1"></i> Change Case Details
-                                        </button>
-                                        <button class="btn btn-primary btn-sm">
-                                            <i class="bi bi-send me-1"></i> Send Now
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- Upcoming Logs -->
+        <div id="upcomingTab">
+            @foreach($upcomingLogs as $log)
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <p class="mb-1">Conflict letter will be sent to:
+                                <strong>{{ $log->recipient_name }}, CN:{{ $log->recipient_case_number }}</strong>
+                            </p>
+                            <p class="mb-1 text-muted small">Conflict Between:
+                                <strong>CN: {{ $log->conflict_case_number_1 }}</strong> &nbsp;
+                                <strong>CN: {{ $log->conflict_case_number_2 }}</strong>
+                            </p>
+                            <p class="mb-0 text-muted small">Conflict Date & Time:
+                                <strong>{{ $log->conflict_date_time }}</strong>
+                            </p>
                         </div>
+                        <div class="text-end small text-muted">
+                            <p class="mb-1">Record Generated on: {{ $log->created_at }}</p>
+                            <p class="mb-0">Conflict letter scheduled to send on:
+                                {{ $log->conflict_date_time }}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <a href="{{ route('company.resolve_logs.edit', $log->id) }}" class="btn btn-outline-secondary btn-sm">
+                            Change Case Details
+                        </a>
+                        <button class="btn btn-primary bg-dark-blue btn-sm">Send Now</button>
                     </div>
                 </div>
             </div>
+            @endforeach
+        </div>
 
-            <!-- History Tab -->
-            <div class="tab-pane fade" id="change" role="tabpanel" aria-labelledby="change-tab">
-                <div class="row g-4">
-                    <div class="col-12">
-                        <div class="card border-0 shadow-sm rounded-3">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between flex-column flex-md-row align-items-start">
-                                    <div class="mb-3 mb-md-0">
-                                        <p class="mb-2 text-muted"><i class="bi bi-envelope-paper me-1"></i> Conflict
-                                            letter was sent to:
-                                            <strong class="text-dark">James Andreson, CN: 73273793</strong>
-                                        </p>
-                                        <ul class="list-unstyled ps-3 mb-0 small">
-                                            <li><i class="bi bi-calendar-event me-1"></i> Record Generated on:
-                                                <strong>04 March 2025, 11:15AM</strong></li>
-                                            <li><i class="bi bi-calendar-check me-1"></i> Letter was sent on: <strong>07
-                                                    March 2025</strong></li>
-                                            <li><i class="bi bi-people me-1"></i> Conflict Between: <strong>CN:
-                                                    73273793</strong>, CN: 43243244</li>
-                                            <li><i class="bi bi-clock me-1"></i> Conflict Date & Time: <strong>07 April
-                                                    2025</strong></li>
-                                        </ul>
-                                    </div>
-                                    <div class="d-flex flex-column flex-md-row gap-2">
-                                        <button class="btn btn-outline-primary btn-sm">
-                                            <i class="bi bi-pencil-square me-1"></i> Change Case Details
-                                        </button>
-                                        <button class="btn btn-primary btn-sm">
-                                            <i class="bi bi-send me-1"></i> Send Again
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+        <!-- History Logs -->
+        <div id="historyTab" class="d-none">
+            @foreach($historyLogs as $log)
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <p class="mb-1">Conflict letter was sent to:
+                                <strong>{{ $log->recipient_name }}, CN:{{ $log->recipient_case_number }}</strong>
+                            </p>
+                            <p class="mb-1 text-muted small">Conflict Between:
+                                <strong>CN: {{ $log->conflict_case_number_1 }}</strong> &nbsp;
+                                <strong>CN: {{ $log->conflict_case_number_2 }}</strong>
+                            </p>
+                            <p class="mb-0 text-muted small">Conflict Date & Time:
+                                <strong>{{ $log->conflict_date_time }}</strong>
+                            </p>
                         </div>
+                        <div class="text-end small text-muted">
+                            <p class="mb-1">Record Generated on: {{ $log->created_at }}</p>
+                            <p class="mb-0">Conflict letter was sent on: {{ $log->conflict_date_time}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                         <a href="{{ route('company.resolve_logs.edit', $log->id) }}" class="btn btn-outline-secondary btn-sm">
+                            Change Case Details
+                        </a>
+                        <button class="btn btn-primary bg-dark-blue btn-sm">View Sent Letter</button>
                     </div>
                 </div>
             </div>
-
+            @endforeach
         </div>
     </div>
+
 
 </x-app-layout>

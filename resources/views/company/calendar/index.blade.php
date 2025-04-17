@@ -44,43 +44,39 @@
         <div id='calendar'></div>
     </div>
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
-
-
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            events: @json($hearings), // Inject PHP data into JS
+            events: @json($hearings),
 
-            // Use eventContent to render custom content for the event
+      
             eventContent: function(info) {
-                // You already have these properties in the extendedProps
                 var hearingDetails = `
-                    <div>
-                        <strong>Case Number:</strong> ${info.event.extendedProps.case_number || 'Unknown'}<br>
-                        <strong>Client:</strong> ${info.event.extendedProps.client_name || 'Unknown Client'}<br>
-                        <strong>Time:</strong> ${info.event.extendedProps.hearing_time || 'Not Specified'}
-                    </div>
-                `;
+                <div>
+                    <strong>Case Number:</strong> ${info.event.extendedProps.case_number || 'Unknown'}<br>
+                    <strong>Client:</strong> ${info.event.extendedProps.client_name || 'Unknown Client'}<br>
+                    <strong>Time:</strong> ${info.event.extendedProps.hearing_time || 'Not Specified'}
+                </div>
+            `;
                 return {
                     html: hearingDetails
-                }; // Return the custom HTML for the event
+                };
             },
 
-            // Optional: Styling the event based on status or any additional logic
+           
             eventClassNames: function(info) {
                 return info.event.extendedProps.case_number ? 'case-event' : 'default-event';
             },
 
-            // Handling the click event on each event
+            
             eventClick: function(info) {
-                var url = info.event.url; // If URL is set for the event
+                var url = info.event.url; 
                 if (url) {
-                    window.open(url, '_blank'); // Open URL in a new tab
-                    return false; // Prevent default behavior
+                    window.location.href = url;
+                    return false; 
                 }
             }
         });

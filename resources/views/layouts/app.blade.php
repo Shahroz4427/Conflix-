@@ -87,10 +87,10 @@
     }
 
     /* @media (min-width: 1200px) {
-            nav.navbar{
-                margin-left: calc(15.625rem + 1.5rem) !important;
-            }
-            } */
+                nav.navbar{
+                    margin-left: calc(15.625rem + 1.5rem) !important;
+                }
+                } */
 
     main {
         margin-top: 76px !important;
@@ -151,9 +151,15 @@
         position: absolute !important;
         will-change: transform;
     }
-    
-    </style>
 
+    .nav-link i {
+        font-size: 0.9rem;
+    }
+
+    .btn i {
+        font-size: 0.85rem;
+    }
+    </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
 </head>
 
@@ -164,21 +170,21 @@
         {{ $slot }}
     </main>
     <script>
-        let dropdowns = document.getElementsByClassName('dropdown');
+    let dropdowns = document.getElementsByClassName('dropdown');
 
-        Array.from(dropdowns).forEach(dropdown => {
-            dropdown.addEventListener('click', function() {
-                let dropdownMenu = this.querySelector('.dropdown-menu');
-                if (dropdownMenu) {
-                    dropdownMenu.classList.toggle('d-none');
-                }
-            });
+    Array.from(dropdowns).forEach(dropdown => {
+        dropdown.addEventListener('click', function() {
+            let dropdownMenu = this.querySelector('.dropdown-menu');
+            if (dropdownMenu) {
+                dropdownMenu.classList.toggle('d-none');
+            }
         });
+    });
     </script>
     <script>
-        document.getElementById("navbarDropdown").addEventListener("click", function() {
-            document.querySelector(".dropdown-menu").classList.toggle("d-none");
-        });
+    document.getElementById("navbarDropdown").addEventListener("click", function() {
+        document.querySelector(".dropdown-menu").classList.toggle("d-none");
+    });
     </script>
 
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -186,27 +192,35 @@
     <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
         }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
     </script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.1.0') }}"></script>
     <script>
-        // Initialize Bootstrap tabs
-        var tabElms = document.querySelectorAll('button[data-bs-toggle="tab"]');
-        tabElms.forEach(function(tabElm) {
-            tabElm.addEventListener('click', function(event) {
-                event.preventDefault();
-                var tab = new bootstrap.Tab(tabElm);
-                tab.show();
+        document.querySelectorAll('#conflictTabs .nav-link').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Add 'active' only to clicked tab
+                this.classList.add('active');
+
+                // Toggle tab content
+                const selectedTab = this.getAttribute('data-tab');
+
+                // Show/Hide content divs
+                document.getElementById('upcomingTab').classList.toggle('d-none', selectedTab !==
+                    'upcoming');
+                document.getElementById('historyTab').classList.toggle('d-none', selectedTab !== 'history');
             });
         });
     </script>
+
+
 </body>
 
 </html>

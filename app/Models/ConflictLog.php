@@ -10,6 +10,7 @@ class ConflictLog extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'recipient_name',
         'recipient_case_number',
         'conflict_case_number_1',
@@ -18,5 +19,10 @@ class ConflictLog extends Model
         'record_generated_at',
         'scheduled_send_date',
         'status',
+        'case_hearing_id_1',
+        'case_hearing_id_2'
     ];
+
+
+   
 }

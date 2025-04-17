@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Models\CaseHearing;
 use App\Models\CaseManagement;
+use App\Models\ConflictLog;
 use App\Models\Court;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CaseHearingController extends Controller
@@ -24,14 +26,28 @@ class CaseHearingController extends Controller
         return view('company.hearings.index', compact('hearings', 'client','courts','case'));
     }
     
+
+    
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(CaseHearing $caseHearing)
+    {
+        $courts = Court::all(); 
+
+        $case=$caseHearing->case;
+
+        $client= $case->client;
+    
+        return view('company.hearings.edit', compact('caseHearing', 'courts','case','client'));
+    }
     
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,CaseManagement $case)
+    public function store(Request $request, CaseManagement $case)
     {
-       
         $validated = $request->validate([
             'hearing_date' => 'required|date',
             'hearing_time' => 'required',
@@ -39,26 +55,52 @@ class CaseHearingController extends Controller
             'court_id' => 'required|exists:courts,id',
         ]);
     
-        CaseHearing::create([
+        $hearingDateTime = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time'])->startOfMinute();
+    
+    
+        $newHearing = CaseHearing::create([
             'hearing_date' => $validated['hearing_date'],
             'hearing_time' => $validated['hearing_time'],
             'nature_of_court_date' => $validated['nature_of_court_date'],
             'court_id' => $validated['court_id'],
-            'case_management_id'=>$case->id
+            'case_management_id' => $case->id
         ]);
     
 
+        $conflictingHearings = CaseHearing::whereDate('hearing_date', $validated['hearing_date'])->get();
+    
+        foreach ($conflictingHearings as $conflictingHearing) {
+            if ($conflictingHearing->id === $newHearing->id) continue;
+    
+            $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
+    
+            if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
+                $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
+    
+                ConflictLog::create([
+                    'company_id' => auth()->user()->company->id,
+                    'recipient_name' => $case->client->name,
+                    'recipient_case_number' => $case->case_number,
+                    'conflict_case_number_1' => $case->case_number,
+                    'conflict_case_number_2' => $conflictingHearing->case->case_number,
+                    'case_hearing_id_1' => $newHearing->id,
+                    'case_hearing_id_2' => $conflictingHearing->id,
+                    'conflict_date_time' => $hearingDateTime,
+                    'status' => $status,
+                    'record_generated_at' => now()
+                ]);
+            }
+        }
+    
         return redirect()->back()->with('success', 'Court date added successfully.');
     }
+    
 
-
-     /**
+    /**
      * Update the specified resource in storage.
      */
-
     public function update(Request $request, CaseHearing $caseHearing)
     {
-
         $validated = $request->validate([
             'hearing_date' => 'required|date',
             'hearing_time' => 'required',
@@ -66,12 +108,53 @@ class CaseHearingController extends Controller
             'court_id' => 'required|exists:courts,id',
         ]);
 
-        $caseHearing->update($validated);
+        $hearingDateTime = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time'])->startOfMinute();
 
-     
-        return redirect()->back()->with('success', 'Hearing updated successfully.');
-    }
-    
+        $conflictingHearings = CaseHearing::whereDate('hearing_date', $validated['hearing_date'])->get(); 
+
+        foreach ($conflictingHearings as $conflictingHearing) {
+            if ($conflictingHearing->id === $caseHearing->id) continue; 
+
+            $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
+
+            if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
+
+  
+                $conflictExists = ConflictLog::where('conflict_case_number_1', $caseHearing->case->case_number)
+                    ->where('conflict_case_number_2', $conflictingHearing->case->case_number)
+                    ->where('conflict_date_time', $hearingDateTime)
+                    ->exists();
+
+                $reverseConflictExists = ConflictLog::where('conflict_case_number_1', $conflictingHearing->case->case_number)
+                    ->where('conflict_case_number_2', $caseHearing->case->case_number)
+                    ->where('conflict_date_time', $hearingDateTime)
+                    ->exists();
+
+                if (!$conflictExists && !$reverseConflictExists) {
+                    $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
+
+                    ConflictLog::create([
+                        'company_id'=>auth()->user()->company->id,
+                        'recipient_name' => $caseHearing->case->client->name,
+                        'recipient_case_number' => $caseHearing->case->case_number,
+                        'conflict_case_number_1' => $caseHearing->case->case_number,
+                        'conflict_case_number_2' => $conflictingHearing->case->case_number,
+                        'case_hearing_id_1' => $caseHearing->id,
+                        'case_hearing_id_2' => $conflictingHearing->id,
+                        'conflict_date_time' => $hearingDateTime,
+                        'status' => $status,
+                        'record_generated_at' => now()
+                    ]);
+                    
+                }
+            }
+        }
+
+    $caseHearing->update($validated);
+
+    return redirect()->back()->with('success', 'Hearing updated successfully.');
+   }
+
 
     /**
      * Remove the specified resource from storage.

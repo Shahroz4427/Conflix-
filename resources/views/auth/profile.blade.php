@@ -41,7 +41,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid py-4">
+    <div class="container-fluid p-4">
         <div class="row">
             <div class="col-md-12">
                 <h4 class="fw-bold mb-3">{{ Auth::user()->name }}</h4>
