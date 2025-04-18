@@ -119,14 +119,15 @@
                                             <th
                                                 class="text-uppercase text-secondary text-center text-xs opacity-7 px-3">
                                                 Id</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Title</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Status</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Uploaded By
+                                            <th class="text-uppercase text-secondary text-xs opacity-7 px-3">Title</th>
+                                            <th class="text-uppercase text-secondary text-xs opacity-7 px-3">Status</th>
+                                            <th class="text-uppercase text-secondary text-xs opacity-7 px-3">Uploaded By
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Uploaded
+                                            <th class="text-uppercase text-secondary text-xs opacity-7 px-3">Uploaded
                                                 Date</th>
-                                            <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Actions
-                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xs opacity-7 px-3 text-center">
+                                                Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,58 +136,51 @@
                                             <td class="text-center px-3">
                                                 <p class="text-sm mb-0">{{ $template->id }}</p>
                                             </td>
-                                            <td>
+                                            <td class="px-3">
                                                 <a href="#" class="text-sm mb-0 text-black">{{ $template->title }}</a>
                                             </td>
-                                            <td>
+                                            <td class="px-3">
                                                 <p class="text-sm mb-0">{{ $template->status }}</p>
                                             </td>
-                                            <td>
+                                            <td class="px-3">
                                                 <p class="text-sm mb-0">{{ $template->uploaded_by }}</p>
                                             </td>
-                                            <td>
+                                            <td class="px-3">
                                                 <p class="text-sm mb-0">{{ $template->uploaded_date->format('Y-m-d') }}
                                                 </p>
                                             </td>
-                                            <td class="text-center align-middle">
+                                            <td class="text-center align-middle px-3">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                                     {{-- Edit Icon --}}
                                                     <a href="{{ route('admin.company_conflict_letter_templates.edit', $template->id) }}"
                                                         class="text-secondary text-sm" data-bs-toggle="tooltip"
                                                         title="Edit">
-                                                        <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    {{-- Dropdown Menu --}}
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('admin.company_conflict_letter_templates.show', $template->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('admin.company_conflict_letter_templates.destroy',$template->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this template?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-trash me-1"></i> Delete
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    {{-- View Icon --}}
+                                                    <a href="{{ route('admin.company_conflict_letter_templates.show', $template->id) }}"
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="View Details">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+
+                                                    {{-- Delete Icon --}}
+                                                    <form
+                                                        action="{{ route('admin.company_conflict_letter_templates.destroy', $template->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this template?');"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger text-sm p-0 m-0"
+                                                            data-bs-toggle="tooltip" title="Delete">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
+
                                             </td>
                                         </tr>
                                         @empty
@@ -196,6 +190,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                         <div class="d-flex justify-content-end mt-4 mx-4">

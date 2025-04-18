@@ -170,38 +170,32 @@
                                                     <a href="{{ route('admin.companies.edit', $company->id) }}"
                                                         class="text-secondary text-sm" data-bs-toggle="tooltip"
                                                         title="Edit">
-                                                        <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    {{-- Dropdown Menu --}}
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('admin.companies.show', $company->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('admin.companies.deactivate',$company->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to deactivate this company?');">
-                                                                    @csrf
-                                                                    @method('PATCH')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-x-circle me-1"></i> Deactivate
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    {{-- Show Icon --}}
+                                                    <a href="{{ route('admin.companies.show', $company->id) }}"
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="View Details">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+
+                                                    {{-- Deactivate Icon --}}
+                                                    <form
+                                                        action="{{ route('admin.companies.deactivate', $company->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to deactivate this company?');"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger text-sm p-0 m-0"
+                                                            data-bs-toggle="tooltip" title="Deactivate">
+                                                            <i class="fa-solid fa-ban"></i>
+                                                        </button>
+                                                    </form>
+
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -250,7 +244,7 @@
     });
     </script>
 
-  
+
 
 
 </x-app-layout>

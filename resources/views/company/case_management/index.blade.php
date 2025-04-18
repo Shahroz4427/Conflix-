@@ -135,13 +135,19 @@
                                                 <p class="text-sm mb-0">{{ $case->id }}</p>
                                             </td>
                                             <td>
-                                            <a href="{{ route('company.case_hearing.index', $case->id) }}" class="text-sm mb-0 text-black">
-                                            {{ $case->client->name ?? '—' }}
-                                                <span class="ms-1">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z"></path></svg>
-                                                </span>
-                                            </a>
-                                                
+                                                <a href="{{ route('company.case_hearing.index', $case->id) }}"
+                                                    class="text-sm mb-0 text-black">
+                                                    {{ $case->client->name ?? '—' }}
+                                                    <span class="ms-1">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20px"
+                                                            viewBox="0 -960 960 960" width="20px" fill="#5f6368">
+                                                            <path
+                                                                d="m576-288-51-51 105-105H192v-72h438L525-621l51-51 192 192-192 192Z">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                </a>
+
                                             </td>
                                             <td>
                                                 <p class="text-sm mb-0">{{ $case->case_number }}</p>
@@ -158,41 +164,36 @@
                                             </td>
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
+                                                    {{-- Edit Icon --}}
                                                     <a href="{{ route('company.case_management.edit', $case->id) }}"
-                                                        class="text-secondary text-sm">
-                                                        <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="Edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    <div class="dropdown position-relative">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" data-bs-display="static">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('company.case_hearing.index', $case->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('company.case_management.destroy', $case->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this case?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-trash me-1"></i> Delete
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    {{-- View Detail Icon --}}
+                                                    <a href="{{ route('company.case_hearing.index', $case->id) }}"
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="Show Detail">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
 
+                                                    {{-- Delete Icon --}}
+                                                    <form
+                                                        action="{{ route('company.case_management.destroy', $case->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this case?');"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger text-sm p-0 m-0"
+                                                            data-bs-toggle="tooltip" title="Delete">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
+
                                             </td>
                                         </tr>
                                         @empty

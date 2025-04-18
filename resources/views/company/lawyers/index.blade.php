@@ -4,7 +4,7 @@
         <div class="container-fluid px-3">
             <div class="collapse navbar-collapse justify-content-end mt-sm-0 me-md-0" id="navbar">
                 <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item d-flex align-items-center">                
+                    <li class="nav-item d-flex align-items-center">
                         <a href="{{ route('company.lawyers.create') }}"
                             class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2">
                             <span class="d-inline-block me-1">
@@ -14,10 +14,10 @@
                                         d="M440-440H240q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h200v-200q0-17 11.5-28.5T480-760q17 0 28.5 11.5T520-720v200h200q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H520v200q0 17-11.5 28.5T480-200q-17 0-28.5-11.5T440-240v-200Z" />
                                 </svg>
                             </span>
-                            Add Lawyer 
+                            Add Lawyer
                         </a>
                     </li>
-         
+
                     <li class="nav-item dropdown d-flex align-items-center ps-2">
                         <a href="#" class="nav-link text-white font-weight-bold px-0" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false"
@@ -94,10 +94,10 @@
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Name</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Phone</th>
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">Email</th>
-                                        
+
                                             <th class="text-uppercase text-secondary text-xs opacity-7 ps-2">
                                                 Jurisdiction</th>
-                                          
+
                                             <th class="text-center text-uppercase text-secondary text-xs opacity-7">
                                                 Actions</th>
                                         </tr>
@@ -117,47 +117,42 @@
                                             <td>
                                                 <p class="text-sm mb-0">{{ $lawyer->email ?? '—' }}</p>
                                             </td>
-                                           
+
                                             <td>
                                                 <p class="text-sm mb-0">{{ $lawyer->jurisdiction->title ?? '—' }}</p>
                                             </td>
-                                    
+
                                             <td class="text-center align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
+                                                    {{-- Edit Icon --}}
                                                     <a href="{{ route('company.lawyers.edit', $lawyer->id) }}"
                                                         class="text-secondary text-sm" data-bs-toggle="tooltip"
                                                         title="Edit">
-                                                        <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('company.lawyers.show', $lawyer->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('company.lawyers.destroy', $lawyer->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this lawyer?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-trash me-1"></i> Delete
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+
+                                                    {{-- Show Detail Icon --}}
+                                                    <a href="{{ route('company.lawyers.show', $lawyer->id) }}"
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="Show Detail">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+
+                                                    {{-- Delete Icon --}}
+                                                    <form action="{{ route('company.lawyers.destroy', $lawyer->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this lawyer?');"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger text-sm p-0 m-0"
+                                                            data-bs-toggle="tooltip" title="Delete">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
+
                                             </td>
                                         </tr>
                                         @empty

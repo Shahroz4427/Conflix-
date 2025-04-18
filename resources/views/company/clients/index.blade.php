@@ -154,39 +154,31 @@
                                                     <a href="{{ route('company.clients.edit', $client->id) }}"
                                                         class="text-secondary text-sm" data-bs-toggle="tooltip"
                                                         title="Edit">
-                                                        <img src="{{ asset('assets/svg/edit-16.svg') }}" alt="edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    {{-- Dropdown Menu --}}
-                                                    <div class="dropdown">
-                                                        <a href="#" class="text-secondary text-sm"
-                                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <img src="{{ asset('assets/svg/vertical-dots-16.svg') }}"
-                                                                alt="more">
-                                                        </a>
-                                                        <ul class="dropdown-menu dropdown-menu-end">
-                                                            <li>
-                                                                <a href="{{ route('company.clients.show', $client->id) }}"
-                                                                    class="dropdown-item">
-                                                                    <i class="bi bi-eye me-1"></i> Show Detail
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('company.clients.destroy', $client->id) }}"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this client?');">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="dropdown-item text-danger">
-                                                                        <i class="bi bi-trash me-1"></i> Delete
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    {{-- View Detail Icon --}}
+                                                    <a href="{{ route('company.clients.show', $client->id) }}"
+                                                        class="text-secondary text-sm" data-bs-toggle="tooltip"
+                                                        title="Show Detail">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+
+                                                    {{-- Delete Icon --}}
+                                                    <form action="{{ route('company.clients.destroy', $client->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this client?');"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-link text-danger text-sm p-0 m-0"
+                                                            data-bs-toggle="tooltip" title="Delete">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
+
                                             </td>
                                         </tr>
                                         @empty
