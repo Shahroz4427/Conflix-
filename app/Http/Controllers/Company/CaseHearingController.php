@@ -57,7 +57,6 @@ class CaseHearingController extends Controller
     
         $hearingDateTime = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time'])->startOfMinute();
     
-    
         $newHearing = CaseHearing::create([
             'hearing_date' => $validated['hearing_date'],
             'hearing_time' => $validated['hearing_time'],
@@ -66,29 +65,45 @@ class CaseHearingController extends Controller
             'case_management_id' => $case->id
         ]);
     
-
-        $conflictingHearings = CaseHearing::whereDate('hearing_date', $validated['hearing_date'])->get();
+        $companyId = auth()->user()->company->id;
+    
+        $conflictingHearings = CaseHearing::whereHas('case', function ($query) use ($companyId) {
+            $query->where('company_id', $companyId);
+        })
+        ->whereDate('hearing_date', $validated['hearing_date'])
+        ->get();
     
         foreach ($conflictingHearings as $conflictingHearing) {
             if ($conflictingHearing->id === $newHearing->id) continue;
     
             $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
     
+            // 🔥 Removed ->ne() check so exact same time will also be caught
             if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
                 $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
     
-                ConflictLog::create([
-                    'company_id' => auth()->user()->company->id,
-                    'recipient_name' => $case->client->name,
-                    'recipient_case_number' => $case->case_number,
-                    'conflict_case_number_1' => $case->case_number,
-                    'conflict_case_number_2' => $conflictingHearing->case->case_number,
-                    'case_hearing_id_1' => $newHearing->id,
-                    'case_hearing_id_2' => $conflictingHearing->id,
-                    'conflict_date_time' => $hearingDateTime,
-                    'status' => $status,
-                    'record_generated_at' => now()
-                ]);
+                [$hearingId1, $hearingId2] = $newHearing->id < $conflictingHearing->id
+                    ? [$newHearing->id, $conflictingHearing->id]
+                    : [$conflictingHearing->id, $newHearing->id];
+    
+                $existingConflict = ConflictLog::where('case_hearing_id_1', $hearingId1)
+                    ->where('case_hearing_id_2', $hearingId2)
+                    ->exists();
+    
+                if (!$existingConflict) {
+                    ConflictLog::create([
+                        'company_id' => $companyId,
+                        'recipient_name' => $case->client->name,
+                        'recipient_case_number' => $case->case_number,
+                        'conflict_case_number_1' => $case->case_number,
+                        'conflict_case_number_2' => $conflictingHearing->case->case_number,
+                        'case_hearing_id_1' => $hearingId1,
+                        'case_hearing_id_2' => $hearingId2,
+                        'conflict_date_time' => $hearingDateTime,
+                        'status' => $status,
+                        'record_generated_at' => now()
+                    ]);
+                }
             }
         }
     
@@ -110,50 +125,52 @@ class CaseHearingController extends Controller
 
         $hearingDateTime = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time'])->startOfMinute();
 
-        $conflictingHearings = CaseHearing::whereDate('hearing_date', $validated['hearing_date'])->get(); 
+        // Only fetch hearings from the same company
+        $conflictingHearings = CaseHearing::whereHas('case', function ($query) {
+            $query->where('company_id', auth()->user()->company->id);
+        })
+        ->whereDate('hearing_date', $validated['hearing_date'])
+        ->get();
 
         foreach ($conflictingHearings as $conflictingHearing) {
-            if ($conflictingHearing->id === $caseHearing->id) continue; 
+            if ($conflictingHearing->id === $caseHearing->id) continue;
 
             $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
 
+            // 🔥 Removed ->ne() check so exact same time will also be caught
             if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
+                $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
 
-  
-                $conflictExists = ConflictLog::where('conflict_case_number_1', $caseHearing->case->case_number)
-                    ->where('conflict_case_number_2', $conflictingHearing->case->case_number)
-                    ->where('conflict_date_time', $hearingDateTime)
+                [$hearingId1, $hearingId2] = $caseHearing->id < $conflictingHearing->id
+                    ? [$caseHearing->id, $conflictingHearing->id]
+                    : [$conflictingHearing->id, $caseHearing->id];
+
+                $existingConflict = ConflictLog::where('case_hearing_id_1', $hearingId1)
+                    ->where('case_hearing_id_2', $hearingId2)
                     ->exists();
 
-                $reverseConflictExists = ConflictLog::where('conflict_case_number_1', $conflictingHearing->case->case_number)
-                    ->where('conflict_case_number_2', $caseHearing->case->case_number)
-                    ->where('conflict_date_time', $hearingDateTime)
-                    ->exists();
-
-                if (!$conflictExists && !$reverseConflictExists) {
-                    $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
-
+                if (!$existingConflict) {
                     ConflictLog::create([
-                        'company_id'=>auth()->user()->company->id,
+                        'company_id' => auth()->user()->company->id,
                         'recipient_name' => $caseHearing->case->client->name,
                         'recipient_case_number' => $caseHearing->case->case_number,
                         'conflict_case_number_1' => $caseHearing->case->case_number,
                         'conflict_case_number_2' => $conflictingHearing->case->case_number,
-                        'case_hearing_id_1' => $caseHearing->id,
-                        'case_hearing_id_2' => $conflictingHearing->id,
+                        'case_hearing_id_1' => $hearingId1,
+                        'case_hearing_id_2' => $hearingId2,
                         'conflict_date_time' => $hearingDateTime,
                         'status' => $status,
                         'record_generated_at' => now()
                     ]);
-                    
                 }
             }
         }
 
-    $caseHearing->update($validated);
+        // Update the hearing data
+        $caseHearing->update($validated);
 
-    return redirect()->back()->with('success', 'Hearing updated successfully.');
-   }
+        return redirect()->back()->with('success', 'Hearing updated successfully.');
+    }
 
 
     /**

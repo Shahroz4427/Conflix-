@@ -31,7 +31,7 @@ class CalendarController extends Controller
                         'client_name' => $hearing->case->client->name ?? 'Unknown Client',
                         'hearing_time'  => $hearing->hearing_time,
                     ],
-                    'url' => route('company.case_hearing.edit',1)
+                    'url' => route('company.case_hearing.edit',$hearing->id)
                 ];
             });
     

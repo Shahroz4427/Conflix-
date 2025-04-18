@@ -59,14 +59,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="m-0">Profile Information</h5>
+                        <h5 class="m-0">Chnage Password</h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('profile.update') }}">
                             @csrf
                             @method('PATCH')
 
-                            <!-- Name -->
+<!--                            
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}"
@@ -76,7 +76,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Email -->
+                           
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
                                 <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}"
@@ -88,7 +88,7 @@
 
                             <hr class="my-4">
 
-                            <h6 class="text-muted">Change Password (optional)</h6>
+                            <h6 class="text-muted">Change Password (optional)</h6> -->
 
                             <!-- Old Password -->
                             <div class="mb-3">

@@ -65,6 +65,15 @@
                         </div>
                     @endif
 
+                    <style>
+                        .disabled-input {
+                            background-color: #f5f5f5; /* Light gray background to appear disabled */
+                            color: #6c757d; /* Gray text color to indicate it's disabled */
+                            pointer-events: none;  /* Light border to indicate it's non-editable */
+                        }
+
+                    </style>
+
                     <form action="{{ route('company.case_management.update', $caseManagement->id) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -85,7 +94,7 @@
 
                                 <div class="col-md-6">
                                     <label class="text-sm text-black">Client Email</label>
-                                    <input type="email" class="form-control mb-3" name="client_email" id="client-email"
+                                    <input type="email" class="form-control mb-3 disabled-input" name="client_email" id="client-email"
                                            readonly value="{{ $caseManagement->client->email }}">
                                 </div>
                             </div>
@@ -94,7 +103,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="text-sm text-black">Address</label>
-                                    <input type="text" class="form-control mb-3" name="client_address"
+                                    <input type="text" class="form-control mb-3 disabled-input" name="client_address"
                                            id="client-address" readonly value="{{ $caseManagement->client->address }}">
                                 </div>
                             </div>
@@ -115,7 +124,7 @@
 
                                 <div class="col-md-6">
                                     <label class="text-sm text-black">Lawyer Email</label>
-                                    <input type="email" class="form-control mb-3" name="lawyer_email" id="lawyer-email"
+                                    <input type="email" class="form-control mb-3 disabled-input" name="lawyer_email" id="lawyer-email"
                                            readonly value="{{ $caseManagement->lawyer->email }}">
                                 </div>
                             </div>

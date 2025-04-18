@@ -16,10 +16,11 @@ class ResolveConflictLogController extends Controller
 
         $courts=Court::all();
 
-        $caseHearing1 = CaseHearing::find($conflictLog->case_hearing_id_1);
+        $caseHearing1 = CaseHearing::with('case.client')->find($conflictLog->case_hearing_id_1);
+
+        $caseHearing2 = CaseHearing::with('case.client')->find($conflictLog->case_hearing_id_2);
         
-        $caseHearing2 = CaseHearing::find($conflictLog->case_hearing_id_2);
-    
+        
         return view('company.resolve_conflict.edit', compact('caseHearing1', 'caseHearing2','courts'));
     }
     

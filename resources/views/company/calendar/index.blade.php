@@ -40,7 +40,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <div id='calendar'></div>
     </div>
 
@@ -49,10 +49,14 @@
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+            initialView: 'dayGridMonth', // Default view is Month
+            headerToolbar: {
+                left: 'prev,next', // Previous, Next, Today buttons
+                center: 'title', // Title in the center
+                right: 'today,dayGridMonth,dayGridWeek' // Buttons for Month and Week views
+            },
             events: @json($hearings),
 
-      
             eventContent: function(info) {
                 var hearingDetails = `
                 <div>
@@ -66,17 +70,15 @@
                 };
             },
 
-           
             eventClassNames: function(info) {
                 return info.event.extendedProps.case_number ? 'case-event' : 'default-event';
             },
 
-            
             eventClick: function(info) {
-                var url = info.event.url; 
+                var url = info.event.url;
                 if (url) {
                     window.location.href = url;
-                    return false; 
+                    return false;
                 }
             }
         });
@@ -84,5 +86,6 @@
         calendar.render();
     });
     </script>
+
 
 </x-app-layout>

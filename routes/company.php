@@ -39,5 +39,9 @@ Route::middleware(['auth', 'verified','restrictUserType:company'])->prefix('comp
 
     Route::put('/resolve_logs/{caseHearing}', [ResolveConflictLogController::class, 'update'])->name('resolve_logs.update');
 
+    Route::get('/conflict_letter/send',function(){
+
+    });
+
 
 });

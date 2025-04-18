@@ -63,7 +63,15 @@
                         </ul>
                     </div>
                     @endif
+                    <style>
+                        .disabled-input {
+                            background-color: #f5f5f5; /* Light gray background to appear disabled */
+                            color: #6c757d; /* Gray text color to indicate it's disabled */
+                            border-color: #ddd; /* Light border to indicate it's non-editable */
+                            pointer-events: none;      /* Prevents interaction */
+                        }
 
+                    </style>
                     <form action="{{ route('company.case_management.store') }}" method="POST">
                         @csrf
                         <div class="card-body pb-3">
@@ -84,17 +92,18 @@
 
                                 <div class="col-md-6">
                                     <label class="text-sm text-black">Client Email</label>
-                                    <input type="email" class="form-control mb-3" name="client_email" id="client-email"
-                                        readonly placeholder="Auto filled">
-                                </div>
+                                    <input type="email" class="form-control mb-3 disabled-input" name="client_email" id="client-email"
+                                        readonly >
+                    </div>
+                                
                             </div>
 
                             {{-- Client Address --}}
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="text-sm text-black">Address</label>
-                                    <input type="text" class="form-control mb-3" name="client_address"
-                                        id="client-address" readonly placeholder="Auto filled">
+                                    <input type="text" class="form-control mb-3 disabled-input" name="client_address"
+                                        id="client-address" readonly >
                                 </div>
                             </div>
 
@@ -114,8 +123,8 @@
 
                                 <div class="col-md-6">
                                     <label class="text-sm text-black">Lawyer Email</label>
-                                    <input type="email" class="form-control mb-3" name="lawyer_email" id="lawyer-email"
-                                        readonly placeholder="Auto filled">
+                                    <input type="email" class="form-control mb-3 disabled-input" name="lawyer_email" id="lawyer-email"
+                                        readonly >
                                 </div>
                             </div>
 

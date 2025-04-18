@@ -300,41 +300,45 @@
                                 <table class="table align-items-center mb-0">
                                     <thead>
                                         <tr>
-                                            <th class="text-uppercase text-secondary text-xs text-center px-3">ID</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Court</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Case ID</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Hearing Date</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Time</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2">Nature</th>
-                                            <th class="text-uppercase text-secondary text-xs text-center">Actions</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center px-3 py-2">ID
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Court</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Case ID</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Hearing Date
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Time</th>
+                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Nature Of Court
+                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs text-center py-2">Actions
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($hearings as $hearing)
                                         <tr>
-                                            <td class="text-center px-3">
+                                            <td class="text-center px-3 py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->id }}</p>
                                             </td>
-                                            <td>
+                                            <td class="py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->court->name ?? '—' }}</p>
                                             </td>
-                                            <td>
+                                            <td class="py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->case_management_id }}</p>
                                             </td>
-                                            <td>
+                                            <td class="py-2">
                                                 <p class="text-sm mb-0">
                                                     {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
                                                 </p>
                                             </td>
-                                            <td>
+                                            <td class="py-2">
                                                 <p class="text-sm mb-0">
                                                     {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
                                                 </p>
                                             </td>
-                                            <td>
+                                            <td class="py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->nature_of_court_date ?? '—' }}</p>
                                             </td>
-                                            <td class="text-center align-middle">
+                                            <td class="text-center py-2 align-middle">
                                                 <div class="d-flex justify-content-center align-items-center gap-2">
                                                     <a href="javascript:void(0);"
                                                         class="text-secondary text-sm editHearingBtn"
@@ -364,11 +368,12 @@
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="7" class="text-center">No hearings found.</td>
+                                            <td colspan="7" class="text-center py-2">No hearings found.</td>
                                         </tr>
                                         @endforelse
                                     </tbody>
                                 </table>
+
 
 
                             </div>
@@ -383,12 +388,12 @@
         </div>
     </div>
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const editNatureSelect = document.getElementById('editNatureSelect');
         const editCourtSelect = document.getElementById('editCourtSelect');
 
         if (editNatureSelect && editCourtSelect) {
-            editNatureSelect.addEventListener('change', function () {
+            editNatureSelect.addEventListener('change', function() {
                 const selectedNature = this.value;
 
                 for (let option of editCourtSelect.options) {
@@ -402,7 +407,7 @@
             });
         }
     });
-</script>
+    </script>
 
 
     <script>

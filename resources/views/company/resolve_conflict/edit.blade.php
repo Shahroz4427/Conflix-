@@ -68,8 +68,15 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h6 class="m-0 fs-5 text-black">Edit Case Hearing 1</h6>
+                        <h6 class="m-0 fs-5 text-black">
+                            <strong>Client Name:</strong> {{ $caseHearing1->case->client->name ?? 'N/A' }}
+                        </h6>
+                        <br>
+                        <h6 class="m-0 fs-5 text-black">
+                            <strong>Case Number:</strong> {{ $caseHearing1->case->case_number ?? 'N/A' }}
+                        </h6>
                     </div>
+
 
                     <form action="{{ route('company.resolve_logs.update', $caseHearing1->id) }}" method="POST">
                         @csrf
@@ -130,8 +137,15 @@
             <!-- Case Hearing 2 -->
             <div class="col-md-6">
                 <div class="card">
+
                     <div class="card-header pb-0">
-                        <h6 class="m-0 fs-5 text-black">Edit Case Hearing 2</h6>
+                        <h6 class="m-0 fs-5 text-black">
+                            <strong>Client Name:</strong> {{ $caseHearing2->case->client->name ?? 'N/A' }}
+                        </h6>
+                        <br>
+                        <h6 class="m-0 fs-5 text-black">
+                            <strong>Case Number:</strong> {{ $caseHearing2->case->case_number ?? 'N/A' }}
+                        </h6>
                     </div>
 
                     <form action="{{ route('company.resolve_logs.update', $caseHearing2->id) }}" method="POST">
