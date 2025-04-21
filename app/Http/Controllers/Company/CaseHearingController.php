@@ -78,7 +78,6 @@ class CaseHearingController extends Controller
     
             $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
     
-            // 🔥 Removed ->ne() check so exact same time will also be caught
             if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
                 $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
     
@@ -122,33 +121,35 @@ class CaseHearingController extends Controller
             'nature_of_court_date' => 'required|string|max:255',
             'court_id' => 'required|exists:courts,id',
         ]);
-
+    
         $hearingDateTime = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time'])->startOfMinute();
-
-        // Only fetch hearings from the same company
+    
         $conflictingHearings = CaseHearing::whereHas('case', function ($query) {
             $query->where('company_id', auth()->user()->company->id);
         })
         ->whereDate('hearing_date', $validated['hearing_date'])
         ->get();
-
+    
+        $stillHasConflict = false;
+    
         foreach ($conflictingHearings as $conflictingHearing) {
             if ($conflictingHearing->id === $caseHearing->id) continue;
-
+    
             $conflictingHearingDateTime = Carbon::parse($conflictingHearing->hearing_date . ' ' . $conflictingHearing->hearing_time)->startOfMinute();
-
-            // 🔥 Removed ->ne() check so exact same time will also be caught
+    
             if ($hearingDateTime->diffInMinutes($conflictingHearingDateTime) < 60) {
+                $stillHasConflict = true;
+    
                 $status = $hearingDateTime->isPast() ? 'history' : 'upcoming';
-
+    
                 [$hearingId1, $hearingId2] = $caseHearing->id < $conflictingHearing->id
                     ? [$caseHearing->id, $conflictingHearing->id]
                     : [$conflictingHearing->id, $caseHearing->id];
-
+    
                 $existingConflict = ConflictLog::where('case_hearing_id_1', $hearingId1)
                     ->where('case_hearing_id_2', $hearingId2)
                     ->exists();
-
+    
                 if (!$existingConflict) {
                     ConflictLog::create([
                         'company_id' => auth()->user()->company->id,
@@ -165,13 +166,19 @@ class CaseHearingController extends Controller
                 }
             }
         }
-
-        // Update the hearing data
+    
         $caseHearing->update($validated);
-
+    
+        if (!$stillHasConflict) {
+            ConflictLog::where(function ($q) use ($caseHearing) {
+                $q->where('case_hearing_id_1', $caseHearing->id)
+                  ->orWhere('case_hearing_id_2', $caseHearing->id);
+            })->delete();
+        }
+    
         return redirect()->back()->with('success', 'Hearing updated successfully.');
     }
-
+    
 
     /**
      * Remove the specified resource from storage.

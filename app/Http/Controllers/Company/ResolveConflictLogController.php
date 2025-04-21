@@ -51,12 +51,10 @@ class ResolveConflictLogController extends Controller
             $hearing2 = CaseHearing::find($conflictLog->case_hearing_id_2);
     
             if ($hearing1 && $hearing2) {
-                $datetime1 = Carbon::parse($hearing1->hearing_date . ' ' . $hearing1->hearing_time);
-                $datetime2 = Carbon::parse($hearing2->hearing_date . ' ' . $hearing2->hearing_time);
+                $dateTime1 = $hearing1->hearing_date . ' ' . $hearing1->hearing_time;
+                $dateTime2 = $hearing2->hearing_date . ' ' . $hearing2->hearing_time;
     
-                $diffInMinutes = $datetime1->diffInMinutes($datetime2);
-    
-                if ($diffInMinutes > 60) {
+                if ($dateTime1 !== $dateTime2) {
                     $conflictLog->delete();
                 }
             }
@@ -64,6 +62,7 @@ class ResolveConflictLogController extends Controller
     
         return redirect()->route('company.home')->with('success', 'Hearing updated successfully.');
     }
+    
 
 
 }

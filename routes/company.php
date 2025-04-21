@@ -6,7 +6,6 @@ use App\Http\Controllers\Company\ClientController;
 use App\Http\Controllers\Company\CaseManagementController;
 use App\Http\Controllers\Company\CompanyHomeController;
 use App\Http\Controllers\Company\ConflictLogController;
-
 use App\Http\Controllers\Company\LaywerController;
 use App\Http\Controllers\Company\ResolveConflictLogController;
 use Illuminate\Support\Facades\Route;

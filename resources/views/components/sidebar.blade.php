@@ -89,7 +89,7 @@
             </li>
 
             <li class="nav-item mt-1">
-                <a class="nav-link d-flex align-items-center {{ request()->is('company/case_management*') ? 'active' : '' }}"
+                <a class="nav-link d-flex align-items-center {{ request()->is('company/case_management*', 'company/case_hearing*') ? 'active' : '' }}"
                     href="{{ route('company.case_management.index') }}">
                     <div class="me-2">
                         {{-- Case Management SVG --}}

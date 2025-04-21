@@ -1,6 +1,7 @@
 <x-app-layout>
-    <x-navbar/>
-    
+
+    <x-navbar />
+
     <div class="container-fluid mt-3">
         <div id='calendar'></div>
     </div>
