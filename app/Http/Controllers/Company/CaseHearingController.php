@@ -39,7 +39,6 @@ class CaseHearingController extends Controller
     {
         $validated = $this->validateRequest($request, $case->id);
 
-    
         CaseHearing::create([
             ...$validated,
             'case_management_id' => $case->id
@@ -53,7 +52,6 @@ class CaseHearingController extends Controller
         
         $validated = $this->validateRequest($request, $caseHearing->case_management_id, $caseHearing);
 
-    
         $caseHearing->update($validated);
     
         return back()->with('success', 'Hearing updated successfully.');
@@ -69,9 +67,6 @@ class CaseHearingController extends Controller
 
     private function validateRequest(Request $request, int $caseId, ?CaseHearing $current = null): array
     {
-        $case = CaseManagement::findOrFail($caseId);
-        $companyId = $case->company_id;
-    
         $validated = $request->validate([
             'hearing_date' => 'required|date',
             'hearing_time' => 'required|date_format:H:i',
@@ -79,27 +74,24 @@ class CaseHearingController extends Controller
             'court_id' => 'required|exists:courts,id',
         ]);
     
-
         $start = \Carbon\Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time']);
         $end = $start->copy()->addHour(); 
     
-        $conflictingHearing = CaseHearing::whereHas('case', function ($query) use ($companyId) {
-            $query->where('company_id', $companyId);
-        })
-        ->where('hearing_date', $validated['hearing_date'])
-        ->where('id', '!=', $current?->id)
-        ->get()
-        ->filter(function ($hearing) use ($start, $end) {
-            $hearingStart = \Carbon\Carbon::parse($hearing->hearing_date . ' ' . $hearing->hearing_time);
-            $hearingEnd = $hearingStart->copy()->addHour();
+        $conflictingHearing = CaseHearing::where('case_management_id', $caseId)
+            ->where('hearing_date', $validated['hearing_date'])
+            ->where('id', '!=', $current?->id)
+            ->get()
+            ->filter(function ($hearing) use ($start, $end) {
+                $hearingStart = \Carbon\Carbon::parse($hearing->hearing_date . ' ' . $hearing->hearing_time);
+                $hearingEnd = $hearingStart->copy()->addHour();
     
-            return $start < $hearingEnd && $end > $hearingStart;
-        })
-        ->first();
+                return $start < $hearingEnd && $end > $hearingStart;
+            })
+            ->first();
     
         if ($conflictingHearing) {
             throw \Illuminate\Validation\ValidationException::withMessages([
-                'hearing_time' => 'There is already a hearing scheduled within 1 hour of the selected time.',
+                'hearing_time' => 'There is already a hearing scheduled within 1 hour of the selected time for this case.',
             ]);
         }
     
