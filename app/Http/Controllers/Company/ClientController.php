@@ -36,13 +36,17 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         $validated = $request->validated();
-    
-        $validated['company_id'] = auth()->user()->company->id;
-        
+
+        $company = auth()->user()->company;
+        $validated['company_id'] = $company->id;
+
         Client::create($validated);
-    
+
+        $company->increment('total_clients');
+
         return redirect()->route('company.clients.index')->with('success', 'Client created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -82,6 +86,8 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
+
+        auth()->user()->company->decrement('total_clients');
 
         return redirect()->route('company.clients.index')->with('success', 'Client Deleted successfully.');
     }

@@ -45,7 +45,10 @@
                             class="btn btn-outline-secondary btn-sm">
                             Change Case Details
                         </a>
-                        <button class="btn btn-primary bg-dark-blue btn-sm">Send Now</button>
+                        <button onclick="window.location.href='{{ route('company.conflict_letter.send') }}'"
+                            class="btn btn-primary bg-dark-blue btn-sm">
+                            Send Now
+                        </button>
                     </div>
                 </div>
             </div>
@@ -72,7 +75,7 @@
                         </div>
                         <div class="text-end small text-muted">
                             <p class="mb-1">Record Generated on: {{ $log->created_at }}</p>
-                            <p class="mb-0">Conflict letter was sent on: {{ $log->conflict_date_time}}
+                            <p class="mb-0">Conflict letter scheduled to send on: {{ $log->conflict_date_time}}
                             </p>
                         </div>
                     </div>
@@ -81,7 +84,12 @@
                             class="btn btn-outline-secondary btn-sm">
                             Change Case Details
                         </a>
-                        <button class="btn btn-primary bg-dark-blue btn-sm">View Sent Letter</button>
+                        <button class="btn btn-primary bg-dark-blue btn-sm"
+                            onclick="window.location.href='{{ route('company.conflict_letter.send') }}'">
+                            Send Now
+                        </button>
+
+
                     </div>
                 </div>
             </div>

@@ -7,6 +7,11 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <title>Conflix</title>
     <style>
+    .fc-state-disabled {
+        pointer-events: auto !important;
+        opacity: 1 !important;
+    }
+
     .fc .fc-button {
         background-color: #e0e0e0 !important;
         border: none !important;
@@ -17,19 +22,19 @@
         transition: background-color 0.3s ease;
     }
 
-        .fc .fc-button-active {
-            background-color: #004e8e !important;
-            color: #fff !important;
-        }
+    .fc .fc-button-active {
+        background-color: #004e8e !important;
+        color: #fff !important;
+    }
 
-        .fc .fc-button:hover {
-            background-color: #003b6b !important;
-            color: #fff !important;
-        }
+    .fc .fc-button:hover {
+        background-color: #003b6b !important;
+        color: #fff !important;
+    }
 
-        .fc .fc-button:focus {
-            box-shadow: none !important;
-        }
+    .fc .fc-button:focus {
+        box-shadow: none !important;
+    }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

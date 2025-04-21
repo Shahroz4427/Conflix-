@@ -249,13 +249,16 @@
                                         <tr>
                                             <th class="text-uppercase text-secondary text-xs text-center px-3 py-2">ID
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Court</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Case ID</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Hearing Date
+                                            <th class="text-uppercase text-secondary text-xs text-center ps-2 py-2">
+                                                Court</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center ps-2 py-2">Case
+                                                ID</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center ps-2 py-2">
+                                                Hearing Date</th>
+                                            <th class="text-uppercase text-secondary text-xs text-center ps-2 py-2">Time
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Time</th>
-                                            <th class="text-uppercase text-secondary text-xs ps-2 py-2">Nature Of Court
-                                            </th>
+                                            <th class="text-uppercase text-secondary text-xs text-center ps-2 py-2">
+                                                Nature Of Court</th>
                                             <th class="text-uppercase text-secondary text-xs text-center py-2">Actions
                                             </th>
                                         </tr>
@@ -266,23 +269,23 @@
                                             <td class="text-center px-3 py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->id }}</p>
                                             </td>
-                                            <td class="py-2">
+                                            <td class="text-center py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->court->name ?? '—' }}</p>
                                             </td>
-                                            <td class="py-2">
+                                            <td class="text-center py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->case_management_id }}</p>
                                             </td>
-                                            <td class="py-2">
+                                            <td class="text-center py-2">
                                                 <p class="text-sm mb-0">
                                                     {{ \Carbon\Carbon::parse($hearing->hearing_date)->format('d M Y') }}
                                                 </p>
                                             </td>
-                                            <td class="py-2">
+                                            <td class="text-center py-2">
                                                 <p class="text-sm mb-0">
                                                     {{ \Carbon\Carbon::parse($hearing->hearing_time)->format('h:i A') }}
                                                 </p>
                                             </td>
-                                            <td class="py-2">
+                                            <td class="text-center py-2">
                                                 <p class="text-sm mb-0">{{ $hearing->nature_of_court_date ?? '—' }}</p>
                                             </td>
                                             <td class="text-center py-2 align-middle">
@@ -320,9 +323,9 @@
                                         @endforelse
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
-
                         <div class="d-flex justify-content-end mt-4 mx-4">
                             {{ $hearings->links('pagination::bootstrap-5') }}
                         </div>
@@ -371,24 +374,17 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.editHearingBtn').forEach(button => {
             button.addEventListener('click', function() {
-                // Get values from data attributes
                 const id = this.dataset.id;
                 const date = this.dataset.date;
                 const time = this.dataset.time;
                 const nature = this.dataset.nature;
                 const court = this.dataset.court;
                 const actionUrl = this.dataset.action;
-
-                // Populate the form
                 document.getElementById('editHearingDate').value = date;
                 document.getElementById('editHearingTime').value = time;
                 document.getElementById('editNatureSelect').value = nature;
                 document.getElementById('editCourtSelect').value = court;
-
-                // Set form action
                 document.getElementById('editHearingForm').action = actionUrl;
-
-                // Show the modal
                 const editModal = new bootstrap.Modal(document.getElementById(
                     'editHearingModal'));
                 editModal.show();
@@ -400,7 +396,6 @@
         searchInput.addEventListener('input', function() {
             const searchValue = this.value.toLowerCase();
             const rows = document.querySelectorAll('#hearingTableWrapper tbody tr');
-
             rows.forEach(row => {
                 const courtName = row.querySelector('td:nth-child(2)').textContent
                     .toLowerCase();

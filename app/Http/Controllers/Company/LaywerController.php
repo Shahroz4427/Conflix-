@@ -38,9 +38,13 @@ class LaywerController extends Controller
     {
         $validated = $request->validated(); 
     
-        $validated['company_id'] = auth()->user()->company->id;
+        $company = auth()->user()->company;
+
+        $validated['company_id'] = $company->id;
     
         Lawyer::create($validated);
+
+        $company->increment('total_lawyers');
     
         return redirect()->route('company.lawyers.index')->with('success', 'Lawyer created successfully.');
     }
@@ -87,6 +91,8 @@ class LaywerController extends Controller
     public function destroy(Lawyer $lawyer)
     {
         $lawyer->delete();
+
+        auth()->user()->company->decrement('total_lawyers');
 
         return redirect()->route('company.lawyers.index')->with('success', 'Lawyer Deleted successfully.');
     }
