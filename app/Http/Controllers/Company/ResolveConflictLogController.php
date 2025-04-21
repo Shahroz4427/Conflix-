@@ -24,7 +24,6 @@ class ResolveConflictLogController extends Controller
         return view('company.resolve_conflict.edit', compact('caseHearing1', 'caseHearing2','courts'));
     }
     
-
     public function update(Request $request, CaseHearing $caseHearing)
     {
         $request->validate([
@@ -41,28 +40,8 @@ class ResolveConflictLogController extends Controller
             'court_id' => $request->court_id,
         ]);
     
-        $conflictLog = ConflictLog::where(function ($q) use ($caseHearing) {
-            $q->where('case_hearing_id_1', $caseHearing->id)
-              ->orWhere('case_hearing_id_2', $caseHearing->id);
-        })->first();
-    
-        if ($conflictLog) {
-            $hearing1 = CaseHearing::find($conflictLog->case_hearing_id_1);
-            $hearing2 = CaseHearing::find($conflictLog->case_hearing_id_2);
-    
-            if ($hearing1 && $hearing2) {
-                $dateTime1 = $hearing1->hearing_date . ' ' . $hearing1->hearing_time;
-                $dateTime2 = $hearing2->hearing_date . ' ' . $hearing2->hearing_time;
-    
-                if ($dateTime1 !== $dateTime2) {
-                    $conflictLog->delete();
-                }
-            }
-        }
-    
         return redirect()->route('company.home')->with('success', 'Hearing updated successfully.');
     }
     
-
 
 }

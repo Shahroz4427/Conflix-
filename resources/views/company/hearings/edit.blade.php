@@ -31,7 +31,7 @@
                         </ul>
                     </div>
                     @endif
-                    <form action="{{ route('company.case_hearing.update', $caseHearing->id) }}" method="POST">
+                    <form action="{{ route('company.case_hearing.update', ['caseHearing' => $caseHearing->id]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="card-body pb-3">

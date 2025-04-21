@@ -38,6 +38,7 @@ class ClientController extends Controller
         $validated = $request->validated();
 
         $company = auth()->user()->company;
+        
         $validated['company_id'] = $company->id;
 
         Client::create($validated);

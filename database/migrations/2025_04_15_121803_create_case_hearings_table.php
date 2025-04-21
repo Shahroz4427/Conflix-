@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('court_id')->references('id')->on('courts')->onDelete('cascade');
             $table->foreign('case_management_id')->references('id')->on('case_management')->onDelete('cascade');
+            $table->unique(['case_management_id', 'hearing_date', 'hearing_time'], 'unique_case_hearing_datetime');
+
         });
     }
 
