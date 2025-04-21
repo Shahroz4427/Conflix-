@@ -26,7 +26,6 @@ class UpdateCompanyConflictLetterTemplateRequest extends FormRequest
             'status' => 'required|in:active,inactive',
             'description' => 'nullable|string',
             'upload_template' => 'nullable|file|mimes:pdf,doc,docx',
-            'uploaded_date' => 'required|date',
             'uploaded_by' => 'nullable|string|max:255',
 
         ];

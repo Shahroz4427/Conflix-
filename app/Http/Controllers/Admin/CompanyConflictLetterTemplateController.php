@@ -42,7 +42,7 @@ class CompanyConflictLetterTemplateController extends Controller
             'status' => $request->input('status'),
             'description' => $request->input('description'),
             'upload_template' => $fileName,
-            'uploaded_date' => Carbon::parse($request->input('uploaded_date')),
+            'uploaded_date' => now(),
             'uploaded_by' => auth()->user()->name,
         ]);
 
@@ -84,7 +84,7 @@ class CompanyConflictLetterTemplateController extends Controller
             'status' => $request->input('status'),
             'description' => $request->input('description'),
             'upload_template' => $fileName,
-            'uploaded_date' =>  Carbon::parse($request->input('uploaded_date')),
+            'uploaded_date' => now(),
             'uploaded_by' => auth()->user()->name,
         ]);
 

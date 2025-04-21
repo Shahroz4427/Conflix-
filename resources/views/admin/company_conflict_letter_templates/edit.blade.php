@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="text-sm text-black">Upload Template (PDF)</label>
                                     <input type="file" name="upload_template" class="form-control mb-3" accept=".pdf">
                                     @if($companyConflictLetterTemplate->upload_template)
@@ -68,12 +68,6 @@
 
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="text-sm text-black">Uploaded Date</label>
-                                    <input type="date" name="uploaded_date"
-                                        value="{{ old('uploaded_date', \Carbon\Carbon::parse($companyConflictLetterTemplate->uploaded_date)->format('Y-m-d')) }}"
-                                        class="form-control mb-3" required>
-                                </div>
                             </div>
 
                             <div class="row">

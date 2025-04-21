@@ -26,7 +26,6 @@ class StoreCompanyConflictLetterTemplateRequest extends FormRequest
             'status' => 'required|in:active,inactive',
             'description' => 'nullable|string',
             'upload_template' => 'required|file|mimes:pdf',
-            'uploaded_date' => 'required|date',
             'uploaded_by' => 'nullable|string|max:255',
         ];
     }
