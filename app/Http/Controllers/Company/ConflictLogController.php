@@ -12,26 +12,22 @@ class ConflictLogController extends Controller
     /**
      * Handle the incoming request.
      */
-
     public function __invoke()
     {
-        $companyId = auth()->user()->company->id;
+        $company = auth()->user()->company;
 
-        $now = Carbon::now();
+        $now = now();
 
-        $conflictLogs = ConflictLog::where('company_id', $companyId)->get();
+        $conflictLogs = $company->conflictLogs;
 
-        $upcomingLogs = $conflictLogs->filter(function ($log) use ($now) {
-            return $log->conflict_date_time >= $now && $log->status === 'upcoming';
-        });
-
-        $historyLogs = $conflictLogs->filter(function ($log) use ($now) {
-            return $log->conflict_date_time < $now && $log->status === 'history';
-        });
+        $upcomingLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time >= $now);
+        $historyLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time < $now);
 
         return view('company.conflict_logs.index', [
             'upcomingLogs' => $upcomingLogs,
-            'historyLogs' => $historyLogs
+            'historyLogs' => $historyLogs,
         ]);
     }
+
+    
 }

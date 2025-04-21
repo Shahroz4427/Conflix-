@@ -48,6 +48,10 @@ class Company extends Model
         return $this->hasMany(CaseManagement::class);
     }
 
+    public function conflictLogs()
+    {
+      return $this->hasMany(ConflictLog::class);
+    }
 
 
 

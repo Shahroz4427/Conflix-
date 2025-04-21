@@ -12,6 +12,14 @@ class CompanyHomeController extends Controller
      */
     public function __invoke()
     {
-        return view('company.home');
+
+        $company=auth()->user()->company;
+
+        return view('company.home', [
+            'clients' => $company->clients->count(),
+            'lawyers' => $company->lawyers->count(),
+            'cases' => $company->caseManagements->count(),
+            'conflicts' =>  $company->conflictLogs->count() ,
+        ]);
     }
 }

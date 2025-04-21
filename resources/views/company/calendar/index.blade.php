@@ -28,7 +28,9 @@
                         <strong>Time:</strong> ${info.event.extendedProps.hearing_time || 'Not Specified'}
                     </div>
                 `;
-                return { html: hearingDetails };
+                return {
+                    html: hearingDetails
+                };
             },
 
             eventClassNames: function(info) {
@@ -44,9 +46,7 @@
             }
         });
 
-        // Render the calendar and activate the "Today" button
         calendar.render();
-        calendar.today();
     });
     </script>
     @endpush

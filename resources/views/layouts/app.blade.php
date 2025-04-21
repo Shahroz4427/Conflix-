@@ -35,6 +35,13 @@
     .fc .fc-button:focus {
         box-shadow: none !important;
     }
+
+    .fc-today-button,
+    .fc-dayGridMonth-button,
+    .fc-dayGridWeek-button {
+        text-transform: capitalize !important;
+    }
+
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

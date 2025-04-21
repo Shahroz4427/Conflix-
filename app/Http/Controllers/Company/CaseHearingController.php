@@ -69,22 +69,43 @@ class CaseHearingController extends Controller
 
     private function validateRequest(Request $request, int $caseId, ?CaseHearing $current = null): array
     {
-        return $request->validate([
-            'hearing_date' => [
-                'required',
-                'date',
-                Rule::unique('case_hearings')
-                    ->where(fn ($query) => $query
-                        ->where('case_management_id', $caseId)
-                        ->where('hearing_time', $request->hearing_time)
-                    )
-                    ->ignore($current?->id),
-            ],
-            'hearing_time' => 'required',
+        $case = CaseManagement::findOrFail($caseId);
+        $companyId = $case->company_id;
+    
+        $validated = $request->validate([
+            'hearing_date' => 'required|date',
+            'hearing_time' => 'required|date_format:H:i',
             'nature_of_court_date' => 'required|string|max:255',
             'court_id' => 'required|exists:courts,id',
         ]);
+    
+
+        $start = \Carbon\Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time']);
+        $end = $start->copy()->addHour(); 
+    
+        $conflictingHearing = CaseHearing::whereHas('case', function ($query) use ($companyId) {
+            $query->where('company_id', $companyId);
+        })
+        ->where('hearing_date', $validated['hearing_date'])
+        ->where('id', '!=', $current?->id)
+        ->get()
+        ->filter(function ($hearing) use ($start, $end) {
+            $hearingStart = \Carbon\Carbon::parse($hearing->hearing_date . ' ' . $hearing->hearing_time);
+            $hearingEnd = $hearingStart->copy()->addHour();
+    
+            return $start < $hearingEnd && $end > $hearingStart;
+        })
+        ->first();
+    
+        if ($conflictingHearing) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'hearing_time' => 'There is already a hearing scheduled within 1 hour of the selected time.',
+            ]);
+        }
+    
+        return $validated;
     }
+    
     
     
 
