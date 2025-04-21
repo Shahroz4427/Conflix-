@@ -1,0 +1,145 @@
+  /* body scrollbar */
+  body::-webkit-scrollbar {
+    width: 10px !important;
+    /* Adjust the height of the scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #012568;
+    /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the scrollbar thumb */
+}
+
+body::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    margin-inline: 14px !important;
+    border-radius: 10px;
+}
+
+/* table scrollbar */
+.table-responsive::-webkit-scrollbar {
+    height: 10px !important;
+    /* Adjust the height of the scrollbar */
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the scrollbar thumb */
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    margin-inline: 14px !important;
+    border-radius: 10px;
+}
+
+/* offcanvas scrollbar */
+.offcanvas-body::-webkit-scrollbar {
+    width: 10px !important;
+    /* Adjust the height of the scrollbar */
+}
+
+.offcanvas-body::-webkit-scrollbar-thumb {
+    background-color: #C1C1C1;
+    /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the scrollbar thumb */
+}
+
+.offcanvas-body::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    margin-inline: 14px !important;
+    border-radius: 10px;
+}
+
+.offcanvas-header {
+    height: 100px !important;
+    /* Adjust the height as needed */
+}
+
+/* dropzone */
+.dropzone.dz-clickable {
+    border-width: 1px;
+    border-color: black;
+}
+
+.dropzone.dz-clickable .dz-default.dz-message {
+    color: black;
+}
+
+/* @media (min-width: 1200px) {
+            nav.navbar{
+                margin-left: calc(15.625rem + 1.5rem) !important;
+            }
+            } */
+
+main {
+    margin-top: 76px !important;
+}
+
+.navbar-vertical .navbar-nav .nav-link.active {
+    width: 94% !important;
+}
+
+.modal-backdrop.show {
+    z-index: 99999 !important;
+    /* Default Bootstrap modal is 1050 */
+}
+
+.modal {
+    z-index: 999999 !important;
+}
+
+/* Optional: make sure dropdowns/tooltips/popovers don't overlap modals */
+.dropdown-menu,
+.popover,
+.tooltip {
+    z-index: 1040 !important;
+}
+
+.conflict-card {
+    border-left: 4px solid #012568;
+    margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    border-bottom: 3px solid #012568;
+}
+
+.record-card {
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.allow-dropdown-overflow {
+    position: relative;
+    overflow: visible !important;
+    z-index: 10;
+}
+
+.table-responsive {
+    overflow: visible !important;
+    position: relative;
+    z-index: 1;
+}
+
+.table-responsive .dropdown-menu {
+    z-index: 1055;
+    /* Bootstrap modal level */
+    position: absolute !important;
+    will-change: transform;
+}
+
+.nav-link i {
+    font-size: 0.9rem;
+}
+
+.btn i {
+    font-size: 0.85rem;
+}

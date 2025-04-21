@@ -13,7 +13,7 @@
         <ul class="navbar-nav">
             @if ($routePrefix=='admin')
             <li class="nav-item">
-                <a class="nav-link flex-grow-1 d-flex align-items-center pe-0 me-0 mt-1 {{ request()->is('admin') ? 'active' : '' }}"
+                <a class="nav-link flex-grow-1 d-flex align-items-center pe-0 me-0 mt-1 {{ request()->is('admin/home') ? 'active' : '' }}"
                     href="{{ route('admin.home') }}">
                     <div>
                         {{-- Dashboard SVG --}}
@@ -75,7 +75,7 @@
 
             @if ($routePrefix=='company')
             <li class="nav-item mt-1">
-                <a class="nav-link d-flex align-items-center {{ request()->is('company') ? 'active' : '' }}"
+                <a class="nav-link d-flex align-items-center {{ request()->is('company/home') ? 'active' : '' }}"
                     href="{{ route('company.home') }}">
                     <div class="me-2">
                         {{-- Dashboard SVG --}}

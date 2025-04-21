@@ -4,9 +4,9 @@
         <div class="collapse navbar-collapse justify-content-end mt-sm-0 me-md-0" id="navbar">
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-                    @if (!empty($buttonName))
-                    <a href="{{ $buttonUrl }}"
-                        class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2">
+                    <a href="#"
+                        class="btn btn-sm text-sm btn-white d-sm-block d-none d-flex justify-content-center align-items-center text-center ps-2 mb-0 me-2"
+                        data-bs-toggle="modal" data-bs-target="#addHearingModal">
                         <span class="d-inline-block me-1">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                                 fill="#000000">
@@ -14,8 +14,8 @@
                                     d="M440-440H240q-17 0-28.5-11.5T200-480q0-17 11.5-28.5T240-520h200v-200q0-17 11.5-28.5T480-760q17 0 28.5 11.5T520-720v200h200q17 0 28.5 11.5T760-480q0 17-11.5 28.5T720-440H520v200q0 17-11.5 28.5T480-200q-17 0-28.5-11.5T440-240v-200Z" />
                             </svg>
                         </span>
-                        {{ $buttonName }} </a>
-                    @endif
+                        Add Hearing
+                    </a>
 
                 </li>
                 <li class="nav-item dropdown d-flex align-items-center ps-2">
@@ -38,7 +38,7 @@
                                     Logout
                                 </button>
                             </form>
-                            </li>
+                        </li>
 
                     </ul>
                 </li>
@@ -55,4 +55,3 @@
         </div>
     </div>
 </nav>
-
