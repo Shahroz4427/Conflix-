@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Company;
-
 use App\Http\Controllers\Controller;
-use App\Models\ConflictLog;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class ConflictLogController extends Controller
 {
+
     /**
      * Handle the incoming request.
      */
@@ -20,14 +18,21 @@ class ConflictLogController extends Controller
 
         $conflictLogs = $company->conflictLogs;
 
-        $upcomingLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time >= $now);
-        $historyLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time < $now);
+        $upcomingLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time >= $now)->map(function ($log) {
+            $log->formatted_conflict_date_time = Carbon::parse($log->conflict_date_time)->format('M d, Y - g:i A');
+            $log->formatted_created_at = Carbon::parse($log->created_at)->format('M d, Y - g:i A');
+            return $log;
+        });
+
+        $historyLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time < $now)->map(function ($log) {
+            $log->formatted_conflict_date_time = Carbon::parse($log->conflict_date_time)->format('M d, Y - g:i A');
+            $log->formatted_created_at = Carbon::parse($log->created_at)->format('M d, Y - g:i A');
+            return $log;
+        });
 
         return view('company.conflict_logs.index', [
             'upcomingLogs' => $upcomingLogs,
             'historyLogs' => $historyLogs,
         ]);
     }
-
-    
 }

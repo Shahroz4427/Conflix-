@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
@@ -20,18 +21,18 @@ class CalendarController extends Controller
             ->pluck('hearings')
             ->flatten()
             ->map(function ($hearing) {
-               
                 return [
                     'title' => 'Case #' . ($hearing->case->case_number ?? '-') .
-                    ' - ' . ($hearing->case->client->name ?? 'Unknown Client'),
-                    'start' => $hearing->hearing_date,
-                    'time'  => $hearing->hearing_time,
+                        ' - ' . ($hearing->case->client->name ?? 'Unknown Client'),
+                    'start' => Carbon::parse($hearing->hearing_date)->toDateString(),
+                    'time'  => Carbon::parse($hearing->hearing_time)->format('g:i A'), // e.g. 2:30 PM
                     'extendedProps' => [
                         'case_number' => $hearing->case->case_number ?? '-',
                         'client_name' => $hearing->case->client->name ?? 'Unknown Client',
-                        'hearing_time'  => $hearing->hearing_time,
+                        'hearing_time' => Carbon::parse($hearing->hearing_time)->format('g:i A'),
+                        'hearing_date' => Carbon::parse($hearing->hearing_date)->format('M d, Y'), // e.g. Apr 22, 2025
                     ],
-                    'url' => route('company.case_hearing.edit',$hearing->id)
+                    'url' => route('company.case_hearing.edit', $hearing->id),
                 ];
             });
     
