@@ -148,7 +148,7 @@
             </li>
 
             <li class="nav-item mt-1">
-                <a class="nav-link d-flex align-items-center {{ request()->is('company/conflict_logs*') ? 'active' : '' }}"
+                <a class="nav-link d-flex align-items-center {{ request()->is('company/conflict_logs*','company/resolve_logs*') ? 'active' : '' }}"
                     href="{{ route('company.conflict_logs.index') }}">
                     <div class="me-2">
                         {{-- Conflict Logs SVG --}}
