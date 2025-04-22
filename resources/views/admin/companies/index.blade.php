@@ -3,11 +3,25 @@
     <div class="container-fluid py-4">
         {{-- Success Message --}}
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
+        </script>
         @endif
+        
         <div class="row mb-2">
             <div class="col-12">
                 <div class="row px-3">
@@ -162,27 +176,27 @@
 
     @push('script')
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('companySearch');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('companySearch');
 
-        searchInput.addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#companyTableWrapper tbody tr');
+            searchInput.addEventListener('input', function() {
+                const searchValue = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#companyTableWrapper tbody tr');
 
-            rows.forEach(row => {
-                const companyName = row.querySelector('td:nth-child(2)').textContent
-                    .toLowerCase();
-                const companyEmail = row.querySelector('td:nth-child(3)').textContent
-                    .toLowerCase();
+                rows.forEach(row => {
+                    const companyName = row.querySelector('td:nth-child(2)').textContent
+                        .toLowerCase();
+                    const companyEmail = row.querySelector('td:nth-child(3)').textContent
+                        .toLowerCase();
 
-                if (companyName.includes(searchValue) || companyEmail.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                    if (companyName.includes(searchValue) || companyEmail.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
     @endpush
 

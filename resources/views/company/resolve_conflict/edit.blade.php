@@ -4,11 +4,25 @@
 
 
     <div class="container-fluid py-4">
+
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
+        </script>
         @endif
         @if ($errors->any())
         <div class="alert alert-danger mx-1">
@@ -19,6 +33,7 @@
             </ul>
         </div>
         @endif
+        
 
         <div class="row">
             <div class="col-12">

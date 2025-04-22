@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CaseHearing;
 use App\Models\CaseManagement;
 use App\Models\Court;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -50,6 +51,7 @@ class CaseHearingController extends Controller
     public function update(Request $request, CaseHearing $caseHearing)
     {
         
+        
         $validated = $this->validateRequest($request, $caseHearing->case_management_id, $caseHearing);
 
         $caseHearing->update($validated);
@@ -69,12 +71,12 @@ class CaseHearingController extends Controller
     {
         $validated = $request->validate([
             'hearing_date' => 'required|date',
-            'hearing_time' => 'required|date_format:H:i',
+            'hearing_time' => 'required',
             'nature_of_court_date' => 'required|string|max:255',
             'court_id' => 'required|exists:courts,id',
         ]);
     
-        $start = \Carbon\Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time']);
+        $start = Carbon::parse($validated['hearing_date'] . ' ' . $validated['hearing_time']);
         $end = $start->copy()->addHour(); 
     
         $conflictingHearing = CaseHearing::where('case_management_id', $caseId)
@@ -82,7 +84,7 @@ class CaseHearingController extends Controller
             ->where('id', '!=', $current?->id)
             ->get()
             ->filter(function ($hearing) use ($start, $end) {
-                $hearingStart = \Carbon\Carbon::parse($hearing->hearing_date . ' ' . $hearing->hearing_time);
+                $hearingStart = Carbon::parse($hearing->hearing_date . ' ' . $hearing->hearing_time);
                 $hearingEnd = $hearingStart->copy()->addHour();
     
                 return $start < $hearingEnd && $end > $hearingStart;

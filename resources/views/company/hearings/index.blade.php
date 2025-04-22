@@ -206,10 +206,23 @@
     <div class="container-fluid py-4">
         {{-- Success Message --}}
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
+        </script>
         @endif
 
         <div class="row mb-2">
@@ -339,91 +352,91 @@
 
     @if ($errors->any())
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        @if(old('form_type') === 'add')
-        var addModal = new bootstrap.Modal(document.getElementById('addHearingModal'));
-        addModal.show();
-        @elseif(old('form_type') === 'edit')
-        var editModal = new bootstrap.Modal(document.getElementById('editHearingModal'));
-        editModal.show();
-        @endif
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(old('form_type') === 'add')
+            var addModal = new bootstrap.Modal(document.getElementById('addHearingModal'));
+            addModal.show();
+            @elseif(old('form_type') === 'edit')
+            var editModal = new bootstrap.Modal(document.getElementById('editHearingModal'));
+            editModal.show();
+            @endif
+        });
     </script>
     @endif
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const editNatureSelect = document.getElementById('editNatureSelect');
-        const editCourtSelect = document.getElementById('editCourtSelect');
+        document.addEventListener('DOMContentLoaded', function() {
+            const editNatureSelect = document.getElementById('editNatureSelect');
+            const editCourtSelect = document.getElementById('editCourtSelect');
 
-        if (editNatureSelect && editCourtSelect) {
-            editNatureSelect.addEventListener('change', function() {
+            if (editNatureSelect && editCourtSelect) {
+                editNatureSelect.addEventListener('change', function() {
+                    const selectedNature = this.value;
+
+                    for (let option of editCourtSelect.options) {
+                        if (option.dataset.nature === selectedNature) {
+                            editCourtSelect.value = option.value;
+                            return;
+                        }
+                    }
+
+                    editCourtSelect.value = "";
+                });
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.editHearingBtn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const date = this.dataset.date;
+                    const time = this.dataset.time;
+                    const nature = this.dataset.nature;
+                    const court = this.dataset.court;
+                    const actionUrl = this.dataset.action;
+                    document.getElementById('editHearingDate').value = date;
+                    document.getElementById('editHearingTime').value = time;
+                    document.getElementById('editNatureSelect').value = nature;
+                    document.getElementById('editCourtSelect').value = court;
+                    document.getElementById('editHearingForm').action = actionUrl;
+                    const editModal = new bootstrap.Modal(document.getElementById(
+                        'editHearingModal'));
+                    editModal.show();
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('hearingSearch');
+            searchInput.addEventListener('input', function() {
+                const searchValue = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#hearingTableWrapper tbody tr');
+                rows.forEach(row => {
+                    const courtName = row.querySelector('td:nth-child(2)').textContent
+                        .toLowerCase();
+                    const caseId = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    if (courtName.includes(searchValue) || caseId.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const natureSelect = document.getElementById('natureSelect');
+            const courtSelect = document.getElementById('courtSelect');
+
+            natureSelect.addEventListener('change', function() {
                 const selectedNature = this.value;
-
-                for (let option of editCourtSelect.options) {
+                for (let option of courtSelect.options) {
                     if (option.dataset.nature === selectedNature) {
-                        editCourtSelect.value = option.value;
+                        courtSelect.value = option.value;
                         return;
                     }
                 }
-
-                editCourtSelect.value = "";
-            });
-        }
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.editHearingBtn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.dataset.id;
-                const date = this.dataset.date;
-                const time = this.dataset.time;
-                const nature = this.dataset.nature;
-                const court = this.dataset.court;
-                const actionUrl = this.dataset.action;
-                document.getElementById('editHearingDate').value = date;
-                document.getElementById('editHearingTime').value = time;
-                document.getElementById('editNatureSelect').value = nature;
-                document.getElementById('editCourtSelect').value = court;
-                document.getElementById('editHearingForm').action = actionUrl;
-                const editModal = new bootstrap.Modal(document.getElementById(
-                    'editHearingModal'));
-                editModal.show();
+                courtSelect.value = "";
             });
         });
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('hearingSearch');
-        searchInput.addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#hearingTableWrapper tbody tr');
-            rows.forEach(row => {
-                const courtName = row.querySelector('td:nth-child(2)').textContent
-                    .toLowerCase();
-                const caseId = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                if (courtName.includes(searchValue) || caseId.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const natureSelect = document.getElementById('natureSelect');
-        const courtSelect = document.getElementById('courtSelect');
-
-        natureSelect.addEventListener('change', function() {
-            const selectedNature = this.value;
-            for (let option of courtSelect.options) {
-                if (option.dataset.nature === selectedNature) {
-                    courtSelect.value = option.value;
-                    return;
-                }
-            }
-            courtSelect.value = "";
-        });
-    });
     </script>
     @endpush
 </x-app-layout>

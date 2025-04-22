@@ -2,13 +2,28 @@
     <x-navbar buttonName="Add Case" buttonUrl="{{ route('company.case_management.create') }}"></x-navbar>
 
     <div class="container-fluid py-4">
-        {{-- Success Message --}}
+
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none'; 
+                    }, 500); 
+                }
+            }, 2000); 
+        </script>
         @endif
+
+
 
         {{-- Title and Add Button --}}
         <div class="row mb-2">
@@ -163,33 +178,33 @@
     </div>
 
     @push('script')
-    {{-- Search Script --}}
+
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('caseSearch');
-        searchInput.addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#caseTableWrapper tbody tr');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('caseSearch');
+            searchInput.addEventListener('input', function() {
+                const searchValue = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#caseTableWrapper tbody tr');
 
-            rows.forEach(row => {
-                const caseNumber = row.querySelector('td:nth-child(2)').textContent
-                    .toLowerCase();
-                const clientName = row.querySelector('td:nth-child(3)').textContent
-                    .toLowerCase();
-                const lawyerName = row.querySelector('td:nth-child(4)').textContent
-                    .toLowerCase();
-                const judgeName = row.querySelector('td:nth-child(5)').textContent
-                    .toLowerCase();
+                rows.forEach(row => {
+                    const caseNumber = row.querySelector('td:nth-child(2)').textContent
+                        .toLowerCase();
+                    const clientName = row.querySelector('td:nth-child(3)').textContent
+                        .toLowerCase();
+                    const lawyerName = row.querySelector('td:nth-child(4)').textContent
+                        .toLowerCase();
+                    const judgeName = row.querySelector('td:nth-child(5)').textContent
+                        .toLowerCase();
 
-                if (caseNumber.includes(searchValue) || clientName.includes(searchValue) ||
-                    lawyerName.includes(searchValue) || judgeName.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                    if (caseNumber.includes(searchValue) || clientName.includes(searchValue) ||
+                        lawyerName.includes(searchValue) || judgeName.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
     @endpush
 </x-app-layout>

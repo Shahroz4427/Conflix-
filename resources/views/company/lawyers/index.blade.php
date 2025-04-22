@@ -1,13 +1,27 @@
 <x-app-layout>
 
-    <x-navbar buttonName="Add Lawyer" buttonUrl="{{ route('company.lawyers.create') }}"/>
+    <x-navbar buttonName="Add Lawyer" buttonUrl="{{ route('company.lawyers.create') }}" />
 
     <div class="container-fluid py-4">
+
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
+        </script>
         @endif
 
         {{-- Search --}}
@@ -120,22 +134,22 @@
     </div>
     @push('script')
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('lawyerSearch');
-        searchInput.addEventListener('input', function() {
-            const value = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#lawyerTableWrapper tbody tr');
-            rows.forEach(row => {
-                const name = row.children[1].textContent.toLowerCase();
-                const email = row.children[2].textContent.toLowerCase();
-                if (name.includes(value) || email.includes(value)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('lawyerSearch');
+            searchInput.addEventListener('input', function() {
+                const value = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#lawyerTableWrapper tbody tr');
+                rows.forEach(row => {
+                    const name = row.children[1].textContent.toLowerCase();
+                    const email = row.children[2].textContent.toLowerCase();
+                    if (name.includes(value) || email.includes(value)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
     @endpush
 </x-app-layout>
