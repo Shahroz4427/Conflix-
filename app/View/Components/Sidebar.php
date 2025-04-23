@@ -8,13 +8,12 @@ use Illuminate\View\Component;
 
 class Sidebar extends Component
 {
-
     public ?string $routePrefix;
 
 
     public function __construct(?string $routePrefix = null,)
     {
-       $this->routePrefix = $routePrefix;
+        $this->routePrefix = $routePrefix;
     }
 
 

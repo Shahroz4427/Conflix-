@@ -10,13 +10,13 @@ class Navbar extends Component
 {
     public ?string $buttonName;
     public ?string $buttonUrl;
-    
+
     public function __construct(?string $buttonName = null, ?string $buttonUrl = null)
     {
         $this->buttonName = $buttonName;
         $this->buttonUrl = $buttonUrl;
     }
-    
+
 
     /**
      * Get the view / contents that represent the component.

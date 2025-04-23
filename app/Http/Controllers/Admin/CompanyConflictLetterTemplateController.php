@@ -6,20 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CompanyConflictLetterTemplate\StoreCompanyConflictLetterTemplateRequest;
 use App\Http\Requests\Admin\CompanyConflictLetterTemplate\UpdateCompanyConflictLetterTemplateRequest;
 use App\Models\CompanyConflictLetterTemplate;
-use Carbon\Carbon;
+use App\Repositories\Interfaces\CompanyConflictLetterTemplateRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class CompanyConflictLetterTemplateController extends Controller
 {
+
+    public function __construct(
+        protected CompanyConflictLetterTemplateRepositoryInterface $companyConflictLetterTemplateRepository
+    ){}
+
     /**
      * Display a listing of the resource.
      */
     public function index(): View
     {
-        $letterTemplates = CompanyConflictLetterTemplate::latest()->paginate(10);
+        $letterTemplates = $this->companyConflictLetterTemplateRepository->getAllWithPagination();
 
-        return view('admin.company_conflict_letter_templates.index', compact('letterTemplates'));
+        return view('admin.company_conflict_letter_templates.index',
+            compact('letterTemplates'));
     }
 
     /**
@@ -35,18 +41,10 @@ class CompanyConflictLetterTemplateController extends Controller
      */
     public function store(StoreCompanyConflictLetterTemplateRequest $request): RedirectResponse
     {
-        $fileName = uploadFile($request->file('upload_template'), 'uploads/company_conflict_letter_templates');
+        $this->companyConflictLetterTemplateRepository->store($request->validated());
 
-        CompanyConflictLetterTemplate::create([
-            'title' => $request->input('title'),
-            'status' => $request->input('status'),
-            'description' => $request->input('description'),
-            'upload_template' => $fileName,
-            'uploaded_date' => now(),
-            'uploaded_by' => auth()->user()->name,
-        ]);
-
-        return redirect()->route('admin.company_conflict_letter_templates.index')->with('success', 'Template created successfully.');
+        return redirect()->route('admin.company_conflict_letter_templates.index')
+            ->with('success', 'Template created successfully.');
     }
 
     /**
@@ -54,7 +52,8 @@ class CompanyConflictLetterTemplateController extends Controller
      */
     public function show(CompanyConflictLetterTemplate $companyConflictLetterTemplate): View
     {
-        return view('admin.company_conflict_letter_templates.show', compact('companyConflictLetterTemplate'));
+        return view('admin.company_conflict_letter_templates.show',
+            compact('companyConflictLetterTemplate'));
     }
 
     /**
@@ -62,7 +61,8 @@ class CompanyConflictLetterTemplateController extends Controller
      */
     public function edit(CompanyConflictLetterTemplate $companyConflictLetterTemplate): View
     {
-        return view('admin.company_conflict_letter_templates.edit', compact('companyConflictLetterTemplate'));
+        return view('admin.company_conflict_letter_templates.edit',
+            compact('companyConflictLetterTemplate'));
     }
 
     /**
@@ -70,23 +70,7 @@ class CompanyConflictLetterTemplateController extends Controller
      */
     public function update(UpdateCompanyConflictLetterTemplateRequest $request, CompanyConflictLetterTemplate $companyConflictLetterTemplate): RedirectResponse
     {
-        $fileName = $companyConflictLetterTemplate->upload_template;
-
-        if ($request->hasFile('upload_template')) {
-            $fileName = uploadFile($request->file('upload_template'), 'uploads/company_conflict_letter_templates');
-            if ($companyConflictLetterTemplate->upload_template && file_exists(public_path($companyConflictLetterTemplate->upload_template))) {
-                unlink(public_path($companyConflictLetterTemplate->upload_template));
-            }
-        }
-
-        $companyConflictLetterTemplate->update([
-            'title' => $request->input('title'),
-            'status' => $request->input('status'),
-            'description' => $request->input('description'),
-            'upload_template' => $fileName,
-            'uploaded_date' => now(),
-            'uploaded_by' => auth()->user()->name,
-        ]);
+        $this->companyConflictLetterTemplateRepository->update($companyConflictLetterTemplate,$request->validated());
 
         return redirect()->route('admin.company_conflict_letter_templates.index')
             ->with('success', 'Template updated successfully.');
@@ -97,11 +81,7 @@ class CompanyConflictLetterTemplateController extends Controller
      */
     public function destroy(CompanyConflictLetterTemplate $companyConflictLetterTemplate): RedirectResponse
     {
-        if ($companyConflictLetterTemplate->upload_template && file_exists(public_path($companyConflictLetterTemplate->upload_template))) {
-            unlink(public_path($companyConflictLetterTemplate->upload_template));
-        }
-
-        $companyConflictLetterTemplate->delete();
+       $this->companyConflictLetterTemplateRepository->delete($companyConflictLetterTemplate);
 
         return redirect()->route('admin.company_conflict_letter_templates.index')
             ->with('success', 'Template deleted successfully.');

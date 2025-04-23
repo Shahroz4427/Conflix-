@@ -4,9 +4,10 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" action="{{ route('company.case_hearing.store', $case->id) }}">
+                <form method="POST" action="{{ route('company.case_hearing.store') }}">
                     @csrf
                     <input type="hidden" name="form_type" value="add">
+                    <input type="hidden" name="case_management_id" value="{{$case->id}}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addHearingModalLabel">
                             <i class="bi bi-calendar-event me-2"></i> Add Hearing
@@ -108,6 +109,7 @@
                     @method('PUT')
                     <input type="hidden" name="_from_edit" value="1">
                     <input type="hidden" name="form_type" value="edit">
+
 
                     <div class="modal-header">
                         <h5 class="modal-title" id="editHearingModalLabel">

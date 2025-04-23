@@ -6,7 +6,7 @@ use App\Http\Controllers\Company\ClientController;
 use App\Http\Controllers\Company\CaseManagementController;
 use App\Http\Controllers\Company\CompanyHomeController;
 use App\Http\Controllers\Company\ConflictLogController;
-use App\Http\Controllers\Company\LaywerController;
+use App\Http\Controllers\Company\LawyerController;
 use App\Http\Controllers\Company\ResolveConflictLogController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,7 @@ Route::middleware(['auth', 'verified','restrictUserType:company'])->prefix('comp
 
     Route::get('case_hearing/{case}',[CaseHearingController::class,'index'])->name('case_hearing.index');
 
-    Route::post('case_hearing/{case}',[CaseHearingController::class,'store'])->name('case_hearing.store');
+    Route::post('case_hearing',[CaseHearingController::class,'store'])->name('case_hearing.store');
 
     Route::get('case_hearing/edit/{caseHearing}',[CaseHearingController::class,'edit'])->name('case_hearing.edit');
 
@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified','restrictUserType:company'])->prefix('comp
 
     Route::resource('clients', ClientController::class);
 
-    Route::resource('lawyers', LaywerController::class);
+    Route::resource('lawyers', LawyerController::class);
 
     Route::get('/conflict_logs',ConflictLogController::class)->name('conflict_logs.index');
 

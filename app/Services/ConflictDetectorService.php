@@ -8,12 +8,7 @@ use Carbon\Carbon;
 
 class ConflictDetectorService
 {
-    /**
-     * Detect and log conflicts for a given hearing.
-     *
-     * @param \App\Models\CaseHearing $hearing
-     * @return void
-     */
+
     public function detectAndLogConflicts(CaseHearing $hearing): void
     {
         $case = $hearing->case;
@@ -23,7 +18,7 @@ class ConflictDetectorService
 
         $companyId = $case->company_id;
         $hearingStart = $this->combineDateAndTime($hearing->hearing_date, $hearing->hearing_time);
-        $hearingEnd = $hearingStart->copy()->addMinutes(60); 
+        $hearingEnd = $hearingStart->copy()->addMinutes(60);
 
         $otherHearings = CaseHearing::whereHas('case', function ($q) use ($companyId) {
             $q->where('company_id', $companyId);
@@ -48,12 +43,7 @@ class ConflictDetectorService
         }
     }
 
-    /**
-     * Delete conflicts for a specific hearing.
-     *
-     * @param \App\Models\CaseHearing $hearing
-     * @return void
-     */
+
     public function deleteConflictsFor(CaseHearing $hearing): void
     {
         ConflictLog::where(function ($q) use ($hearing) {
@@ -62,27 +52,13 @@ class ConflictDetectorService
         })->delete();
     }
 
-    /**
-     * Combine the hearing date and time into a Carbon instance.
-     *
-     * @param string $date
-     * @param string $time
-     * @return \Carbon\Carbon
-     */
+
     protected function combineDateAndTime($date, $time): Carbon
     {
         return Carbon::parse("{$date} {$time}")->startOfMinute();
     }
 
-    /**
-     * Log the conflict between two hearings.
-     *
-     * @param \App\Models\CaseHearing $hearing
-     * @param \App\Models\CaseHearing $other
-     * @param int $companyId
-     * @param \Carbon\Carbon $conflictDateTime
-     * @return void
-     */
+
     protected function logConflict(CaseHearing $hearing, CaseHearing $other, $companyId, Carbon $conflictDateTime): void
     {
         [$id1, $id2] = $hearing->id < $other->id ? [$hearing->id, $other->id] : [$other->id, $hearing->id];

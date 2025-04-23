@@ -27,6 +27,4 @@ class CompanyConflictLetterTemplate extends Model
     protected $casts = [
         'uploaded_date' => 'date',
     ];
-    
-
 }

@@ -9,6 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static latest()
  * @method static create(mixed $validated)
+ * @method static count()
+ * @method static where(string $string, string $string1)
+ * @method static sum(string $string)
+ * @method static find($id)
+ * @property mixed $id
+ * @property mixed $user
+ * @property mixed|string $status
+ * @property mixed $subscriptionPlan
+ * @property mixed $clients
+ * @property mixed $lawyers
+ * @property mixed $caseManagements
+ * @property mixed $conflictLogs
  */
 class Company extends Model
 {
@@ -23,24 +35,24 @@ class Company extends Model
         'user_id'
     ];
 
-    public function subscriptionPlan() :BelongsTo
+    public function subscriptionPlan(): BelongsTo
     {
-     return $this->belongsTo(CompanySubscriptionPlan::class, 'company_subscription_plans_id');
+        return $this->belongsTo(CompanySubscriptionPlan::class, 'company_subscription_plans_id');
     }
 
-    public function user() :BelongsTo
+    public function user(): BelongsTo
     {
-     return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function clients()
     {
-     return $this->hasMany(Client::class);
+        return $this->hasMany(Client::class);
     }
 
     public function lawyers()
     {
-     return $this->hasMany(Lawyer::class);
+        return $this->hasMany(Lawyer::class);
     }
 
     public function caseManagements()
@@ -50,9 +62,6 @@ class Company extends Model
 
     public function conflictLogs()
     {
-      return $this->hasMany(ConflictLog::class);
+        return $this->hasMany(ConflictLog::class);
     }
-
-
-
 }

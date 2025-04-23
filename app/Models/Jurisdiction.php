@@ -10,7 +10,7 @@ class Jurisdiction extends Model
 {
     use HasFactory;
 
-    protected  $fillable=[
+    protected $fillable = [
         'title'
     ];
 
@@ -18,5 +18,4 @@ class Jurisdiction extends Model
     {
         return $this->hasMany(Lawyer::class);
     }
-
 }

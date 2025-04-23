@@ -52,11 +52,101 @@
                 transform: scale(1);
             }
         }
+
+        /* Fix for modal overflow */
+        .modal-dialog {
+            max-width: 450px;
+            /* Smaller modal width */
+            margin: 30px auto;
+        }
+
+        .modal-body {
+            max-height: calc(100vh - 210px);
+            overflow-y: hidden !important;
+            overflow-x: hidden !important;
+            padding-right: 15px;
+        }
+
+        .modal-content {
+            border-radius: 12px;
+            padding: 20px;
+            border: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .modal-body {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #ddd;
+        }
+
+        .btn-outline-primary {
+            border-color: #5d78ff;
+            color: #5d78ff;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #5d78ff;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #5d78ff;
+            border-color: #5d78ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4b65d9;
+            border-color: #4b65d9;
+        }
+
+        .modal-dialog-centered {
+            top: 10%;
+        }
+
+        /* Option buttons styling */
+        .btn-option {
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .btn-option:hover {
+            background-color: #e7e8ec;
+            border-color: #ccc;
+        }
+
+        /* Flex styling to display buttons in a row */
+        .modal-body .d-flex {
+            justify-content: space-between;
+            gap: 10px;
+        }
     </style>
     @endpush
 
-
     <x-navbar />
+
+
+
 
     <!-- Sweet Alert Style Success Message -->
     <div id="success-message" class="success-message d-none">
@@ -75,7 +165,32 @@
     </div>
 
     <div class="container-fluid px-4">
+
+
+
+
         <h4 class="fw-bold mb-4 mt-2">Conflict Logs</h4>
+
+
+        @if (session('success'))
+        <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <script>
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
+        </script>
+        @endif
         <!-- Tabs -->
         <ul class="nav nav-pills mb-4" id="conflictTabs">
             <li class="nav-item">
@@ -115,7 +230,8 @@
                             class="btn btn-outline-secondary btn-sm">
                             Change Case Details
                         </a>
-                        <button onclick="showSuccessMessage()" class="btn btn-primary bg-dark-blue btn-sm">
+                        <button class="btn btn-primary bg-dark-blue btn-sm"
+                            onclick="openCaseSelectionModal('{{ $log->id }}', '{{ $log->conflict_case_number_1 }}', '{{ $log->conflict_case_number_2 }}')">
                             Send Now
                         </button>
                     </div>
@@ -153,7 +269,8 @@
                             class="btn btn-outline-secondary btn-sm">
                             Change Case Details
                         </a>
-                        <button onclick="showSuccessMessage()" class="btn btn-primary bg-dark-blue btn-sm">
+                        <button class="btn btn-primary bg-dark-blue btn-sm"
+                            onclick="openCaseSelectionModal('{{ $log->id }}', '{{ $log->conflict_case_number_1 }}', '{{ $log->conflict_case_number_2 }}')">
                             Send Now
                         </button>
                     </div>
@@ -162,15 +279,59 @@
             @endforeach
         </div>
     </div>
+
+    <!-- Modal for Selecting Case -->
+    <div class="modal fade" id="selectCaseModal" tabindex="-1" aria-labelledby="selectCaseModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectCaseModalLabel">Select Case to Send Letter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
+                    <p class="mb-3">Please select which case you want to send the conflict letter for:</p>
+                    <div id="case-options" class="d-flex justify-content-between gap-2">
+                        <!-- Buttons will be injected here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @push('script')
     <script>
+        function openCaseSelectionModal(logId, case1, case2) {
+            const optionsContainer = document.getElementById('case-options');
+            optionsContainer.innerHTML = `
+                <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case1}')">Case Number: ${case1}</button>
+                <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case2}')">Case Number: ${case2}</button>
+            `;
+            const modal = new bootstrap.Modal(document.getElementById('selectCaseModal'));
+            modal.show();
+        }
+
+        function sendConflictLetter(logId, caseNumber) {
+            // You can replace this with an AJAX call to your backend
+            console.log(`Sending letter for Log ID: ${logId}, Case: ${caseNumber}`);
+
+            // Close modal
+            const modalEl = document.getElementById('selectCaseModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+
+            // Show success message
+            showSuccessMessage();
+        }
+
         function showSuccessMessage() {
             const message = document.getElementById('success-message');
             message.classList.remove('d-none');
-
-            setTimeout(() => {
-                message.classList.add('d-none');
-            }, 3000);
+            setTimeout(() => message.classList.add('d-none'), 3000);
         }
     </script>
     @endpush

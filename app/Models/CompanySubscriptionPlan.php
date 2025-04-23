@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int|mixed $is_active
+ */
 class CompanySubscriptionPlan extends Model
 {
     use HasFactory;
@@ -18,7 +21,4 @@ class CompanySubscriptionPlan extends Model
         'recurring_date',
         'is_active',
     ];
-
-  
-
 }

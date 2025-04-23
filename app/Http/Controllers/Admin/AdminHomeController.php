@@ -5,20 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Company;
-
 use App\Models\Lawyer;
+use App\Services\AdminHomeService;
+use Illuminate\View\View;
 
 class AdminHomeController extends Controller
 {
-    public function __invoke()
+    public function __construct(
+        protected AdminHomeService $adminHomeService
+    ){}
+
+    public function __invoke(): View
     {
-        return view('admin.home', [
-            'companies'             => Company::count(),
-            'clients'               => Client::count(),
-            'lawyers'               => Lawyer::count(),
-            'active_subscription'   => Company::where('status', 'active')->count(),
-            'inactive_subscription' => Company::where('status', 'inactive')->count(),
-            'conflict_sent'         => Company::sum('total_conflict_sent'),
-        ]);
+        return view('admin.home',$this->adminHomeService->data());
     }
 }

@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\CompanyHomeService;
+use Illuminate\View\View;
 
 class CompanyHomeController extends Controller
 {
+    public function __construct(
+        protected CompanyHomeService $companyHomeService
+    ){}
+
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke():View
     {
-
-        $company=auth()->user()->company;
-
-        return view('company.home', [
-            'clients' => $company->clients->count(),
-            'lawyers' => $company->lawyers->count(),
-            'cases' => $company->caseManagements->count(),
-            'conflicts' =>  $company->conflictLogs->count() ,
-        ]);
+        return view('company.home', $this->companyHomeService->data());
     }
 }

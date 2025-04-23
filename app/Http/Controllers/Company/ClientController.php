@@ -3,21 +3,26 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Company\Client\StoreClientRequest;
 use App\Http\Requests\Company\Client\UpdateClientRequest;
 use App\Models\Client;
-use Illuminate\Http\Request;
+use App\Repositories\Interfaces\ClientRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
+
+use Illuminate\View\View;
 
 class ClientController extends Controller
 {
+    public function __construct(
+        protected ClientRepositoryInterface $clientRepository
+    ){}
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        
-        $clients = Client::where('company_id', auth()->user()->company->id)->latest()->paginate(10);
+        $clients = $this->clientRepository->getAllClientsWithPagination();
 
         return view('company.clients.index', compact('clients'));
     }
@@ -25,7 +30,7 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('company.clients.create');
     }
@@ -33,63 +38,48 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClientRequest $request)
+    public function store(StoreClientRequest $request): RedirectResponse
     {
-        $validated = $request->validated();
+        $this->clientRepository->store($request->validated());
 
-        $company = auth()->user()->company;
-        
-        $validated['company_id'] = $company->id;
-
-        Client::create($validated);
-
-        $company->increment('total_clients');
-
-        return redirect()->route('company.clients.index')->with('success', 'Client created successfully.');
+        return redirect()->route('company.clients.index')
+            ->with('success', 'Client created successfully.');
     }
-
 
     /**
      * Display the specified resource.
      */
-    public function show(Client $client)
+    public function show(Client $client): View
     {
-        return view('company.clients.show',compact('client'));
+        return view('company.clients.show', compact('client'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Client $client)
+    public function edit(Client $client): View
     {
-        return view('company.clients.edit',compact('client'));
+        return view('company.clients.edit', compact('client'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClientRequest $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client): RedirectResponse
     {
-        $validated = $request->validated();
-    
-        if ($client->company_id !== auth()->user()->company->id) {
-            abort(403, 'Unauthorized action.');
-        }
-    
-        $client->update($validated);
-    
-        return redirect()->route('company.clients.index')->with('success', 'Client updated successfully.');
+        $this->clientRepository->update($client, $request->validated());
+
+        return redirect()->route('company.clients.index')
+            ->with('success', 'Client updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    public function destroy(Client $client): RedirectResponse
     {
-        $client->delete();
-
-        auth()->user()->company->decrement('total_clients');
-
-        return redirect()->route('company.clients.index')->with('success', 'Client Deleted successfully.');
+        $this->clientRepository->delete($client);
+        return redirect()->route('company.clients.index')
+            ->with('success', 'Client Deleted successfully.');
     }
 }

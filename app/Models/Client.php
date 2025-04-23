@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static latest()
  * @method static create(mixed $validated)
+ * @method static count()
+ * @method static where(string $string, mixed $id)
  */
 class Client extends Model
 {
@@ -30,9 +32,7 @@ class Client extends Model
     }
 
     public function company()
-   {
-    return $this->belongsTo(Company::class);
+    {
+        return $this->belongsTo(Company::class);
     }
-
-
 }

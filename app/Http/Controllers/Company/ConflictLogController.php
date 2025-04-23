@@ -1,38 +1,29 @@
 <?php
 
 namespace App\Http\Controllers\Company;
+
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
+use App\Services\ConflictLogService;
+
+use Illuminate\View\View;
 
 class ConflictLogController extends Controller
 {
+    public function __construct(
+        protected ConflictLogService $conflictLogService
+    ){}
 
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke(): View
     {
-        $company = auth()->user()->company;
-
-        $now = now();
-
-        $conflictLogs = $company->conflictLogs;
-
-        $upcomingLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time >= $now)->map(function ($log) {
-            $log->formatted_conflict_date_time = Carbon::parse($log->conflict_date_time)->format('M d, Y - g:i A');
-            $log->formatted_created_at = Carbon::parse($log->created_at)->format('M d, Y - g:i A');
-            return $log;
-        });
-
-        $historyLogs = $conflictLogs->filter(fn($log) => $log->conflict_date_time < $now)->map(function ($log) {
-            $log->formatted_conflict_date_time = Carbon::parse($log->conflict_date_time)->format('M d, Y - g:i A');
-            $log->formatted_created_at = Carbon::parse($log->created_at)->format('M d, Y - g:i A');
-            return $log;
-        });
+        $logs = $this->conflictLogService->getFormattedConflictLogs();
 
         return view('company.conflict_logs.index', [
-            'upcomingLogs' => $upcomingLogs,
-            'historyLogs' => $historyLogs,
+            'upcomingLogs' => $logs['upcomingLogs'],
+            'historyLogs' => $logs['historyLogs'],
         ]);
     }
+
 }

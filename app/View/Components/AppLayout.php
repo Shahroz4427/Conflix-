@@ -7,7 +7,6 @@ use Illuminate\View\View;
 
 class AppLayout extends Component
 {
-
     public ?string $navBarAddBtn;
     public ?string $navBarAddBtnUrl;
 

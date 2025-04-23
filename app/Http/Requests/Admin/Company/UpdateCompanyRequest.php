@@ -23,7 +23,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function rules(): array
     {
-        $company=Company::find($this->route('company')->id);
+        $company = Company::find($this->route('company')->id);
 
         return [
             'name' => 'required|string|max:255',
@@ -39,5 +39,4 @@ class UpdateCompanyRequest extends FormRequest
             'company_subscription_plans_id' => 'required|exists:company_subscription_plans,id',
         ];
     }
-    
 }

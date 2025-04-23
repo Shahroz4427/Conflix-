@@ -3,42 +3,25 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Services\CalendarService;
+use Illuminate\View\View;
 
 class CalendarController extends Controller
 {
+
+    public function __construct(
+        protected CalendarService $calendarService
+    ){}
+
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke(): View
     {
-        $company = auth()->user()->company;
-    
-        $hearings = $company->caseManagements()
-            ->with(['hearings', 'hearings.case.client'])
-            ->get()
-            ->pluck('hearings')
-            ->flatten()
-            ->map(function ($hearing) {
-                return [
-                    'title' => 'Case #' . ($hearing->case->case_number ?? '-') .
-                        ' - ' . ($hearing->case->client->name ?? 'Unknown Client'),
-                    'start' => Carbon::parse($hearing->hearing_date)->toDateString(),
-                    'time'  => Carbon::parse($hearing->hearing_time)->format('g:i A'), // e.g. 2:30 PM
-                    'extendedProps' => [
-                        'case_number' => $hearing->case->case_number ?? '-',
-                        'client_name' => $hearing->case->client->name ?? 'Unknown Client',
-                        'hearing_time' => Carbon::parse($hearing->hearing_time)->format('g:i A'),
-                        'hearing_date' => Carbon::parse($hearing->hearing_date)->format('M d, Y'), // e.g. Apr 22, 2025
-                    ],
-                    'url' => route('company.case_hearing.edit', $hearing->id),
-                ];
-            });
-    
+        $hearings = $this->calendarService->getFormattedHearings();
+
         return view('company.calendar.index', [
             'hearings' => $hearings
         ]);
     }
-    
 }

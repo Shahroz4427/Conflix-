@@ -6,88 +6,93 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CaseManagement\StoreCaseRequest;
 use App\Http\Requests\Company\CaseManagement\UpdateCaseRequest;
 use App\Models\CaseManagement;
-use App\Models\Court;
-
+use App\Repositories\Interfaces\CaseManagementRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class CaseManagementController extends Controller
 {
+    public function __construct(
+        protected CaseManagementRepositoryInterface $caseManagementRepository
+    ){}
+
     /**
      * Display a listing of the cases.
      */
-    public function index()
+    public function index(): View
     {
-        $cases = CaseManagement::with(['client', 'lawyer','court']) ->where('company_id', auth()->user()->company->id)->latest()->paginate(10);  
-    
+        $relations=['client', 'lawyer', 'court'];
+
+        $cases = $this->caseManagementRepository->getAllCasesWithRelationsAndPagination($relations);
+
         return view('company.case_management.index', compact('cases'));
     }
-    
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        $clients=auth()->user()->company->clients;
+        $clients = $this->caseManagementRepository->getAllCompanyClients();
 
-        $lawyers=auth()->user()->company->lawyers;
+        $lawyers = $this->caseManagementRepository->getAllCompanyLawyers();
 
-        $courts =Court::all();
+        $courts = $this->caseManagementRepository->getAllCourts();
 
-        return view('company.case_management.create', compact('clients','lawyers','courts'));
+        return view('company.case_management.create', compact('clients', 'lawyers', 'courts'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCaseRequest $request)
+    public function store(StoreCaseRequest $request): RedirectResponse
     {
-        $validated=$request->validated();
+        $this->caseManagementRepository->store($request->validated());
 
-        $validated['company_id']=auth()->user()->company->id;
-
-        CaseManagement::create($validated);
-
-        return redirect() ->route('company.case_management.index')->with('success', 'Case created successfully.');
+        return redirect()
+            ->route('company.case_management.index')
+            ->with('success', 'Case created successfully.');
     }
-
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CaseManagement $caseManagement)
+    public function edit(CaseManagement $caseManagement): View
     {
-        $caseManagement->load(['client', 'lawyer','court']);
+        $relations=['client', 'lawyer', 'court'];
 
-        $clients=auth()->user()->company->clients;
+        $this->caseManagementRepository->loadWithRelations($caseManagement,$relations);
 
-        $lawyers=auth()->user()->company->lawyers;
+        $clients = $this->caseManagementRepository->getAllCompanyClients();
 
-        $courts =Court::all();
+        $lawyers = $this->caseManagementRepository->getAllCompanyLawyers();
 
-        return view('company.case_management.edit', compact('clients','lawyers','courts','caseManagement'));
+        $courts = $this->caseManagementRepository->getAllCourts();
+
+        return view('company.case_management.edit', compact('clients', 'lawyers', 'courts', 'caseManagement'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCaseRequest $request, CaseManagement $caseManagement)
+    public function update(UpdateCaseRequest $request, CaseManagement $caseManagement): RedirectResponse
     {
-        $validated = $request->validated();
+        $this->caseManagementRepository->update($caseManagement, $request->validated());
 
-        $validated['company_id'] = auth()->user()->company->id;
-
-        $caseManagement->update($validated);
-
-        return redirect() ->route('company.case_management.index')->with('success', 'Case updated successfully.');
+        return redirect()
+            ->route('company.case_management.index')
+            ->with('success', 'Case updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CaseManagement $caseManagement)
+    public function destroy(CaseManagement $caseManagement): RedirectResponse
     {
-        $caseManagement->delete();
+        $this->caseManagementRepository->delete($caseManagement);
 
-        return redirect() ->route('company.case_management.index')->with('success', 'Case Deleted successfully.');
+        return redirect()
+            ->route('company.case_management.index')
+            ->with('success', 'Case deleted successfully.');
     }
 }

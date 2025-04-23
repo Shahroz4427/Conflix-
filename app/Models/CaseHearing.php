@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed $case
+ * @property mixed $hearing_date
+ * @property mixed $hearing_time
+ * @method static where(string $string, \Illuminate\Routing\Route|object|string|null $caseId)
+ * @method static create(array $data)
+ */
 class CaseHearing extends Model
 {
     use HasFactory;
@@ -18,13 +25,13 @@ class CaseHearing extends Model
         'case_management_id'
     ];
 
-    public function court():BelongsTo
+    public function court(): BelongsTo
     {
         return $this->belongsTo(Court::class);
     }
 
     public function case()
     {
-      return $this->belongsTo(CaseManagement::class, 'case_management_id');
+        return $this->belongsTo(CaseManagement::class, 'case_management_id');
     }
 }

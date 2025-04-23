@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed $case_hearing_id_1
+ * @property mixed $case_hearing_id_2
+ */
 class ConflictLog extends Model
 {
     use HasFactory;
@@ -22,11 +26,4 @@ class ConflictLog extends Model
         'case_hearing_id_1',
         'case_hearing_id_2'
     ];
-
-
- 
-
-
-
-   
 }
