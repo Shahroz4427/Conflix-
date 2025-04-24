@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $case
  * @property mixed $hearing_date
  * @property mixed $hearing_time
+ * @property mixed $id
  * @method static where(string $string, \Illuminate\Routing\Route|object|string|null $caseId)
  * @method static create(array $data)
+ * @method static whereHas(string $string, \Closure $param)
  */
 class CaseHearing extends Model
 {
@@ -30,7 +32,7 @@ class CaseHearing extends Model
         return $this->belongsTo(Court::class);
     }
 
-    public function case()
+    public function case(): BelongsTo
     {
         return $this->belongsTo(CaseManagement::class, 'case_management_id');
     }

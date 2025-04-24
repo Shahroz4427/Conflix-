@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static create(array $data)
@@ -50,7 +51,7 @@ class CaseManagement extends Model
         return $this->belongsTo(Court::class);
     }
 
-    public function hearings()
+    public function hearings(): HasMany
     {
         return $this->hasMany(CaseHearing::class);
     }

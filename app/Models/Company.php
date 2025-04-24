@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static latest()
@@ -45,22 +46,22 @@ class Company extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function clients()
+    public function clients(): HasMany
     {
         return $this->hasMany(Client::class);
     }
 
-    public function lawyers()
+    public function lawyers(): HasMany
     {
         return $this->hasMany(Lawyer::class);
     }
 
-    public function caseManagements()
+    public function caseManagements(): HasMany
     {
         return $this->hasMany(CaseManagement::class);
     }
 
-    public function conflictLogs()
+    public function conflictLogs(): HasMany
     {
         return $this->hasMany(ConflictLog::class);
     }

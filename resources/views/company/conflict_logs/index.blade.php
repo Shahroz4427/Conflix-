@@ -53,106 +53,103 @@
             }
         }
 
-        /* Fix for modal overflow */
-        .modal-dialog {
-            max-width: 450px;
-            /* Smaller modal width */
-            margin: 30px auto;
-        }
-
-        .modal-body {
-            max-height: calc(100vh - 210px);
-            overflow-y: hidden !important;
-            overflow-x: hidden !important;
-            padding-right: 15px;
-        }
-
         .modal-content {
-            border-radius: 12px;
-            padding: 20px;
-            border: 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            background-color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
         }
 
-        .modal-header {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .modal-body {
-            font-size: 1rem;
-            color: #555;
-        }
-
-        .modal-footer {
-            border-top: 1px solid #ddd;
-        }
-
-        .btn-outline-primary {
-            border-color: #5d78ff;
+        /* Modal title and icon */
+        .modal-title i {
             color: #5d78ff;
-            transition: all 0.3s ease;
         }
 
-        .btn-outline-primary:hover {
-            background-color: #5d78ff;
-            color: white;
-        }
-
-        .btn-primary {
-            background-color: #5d78ff;
-            border-color: #5d78ff;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #4b65d9;
-            border-color: #4b65d9;
-        }
-
-        .modal-dialog-centered {
-            top: 10%;
-        }
-
-        /* Option buttons styling */
-        .btn-option {
-            font-size: 1rem;
-            padding: 10px 20px;
-            border-radius: 8px;
+        /* Option buttons style */
+        #case-options .btn-option {
+            flex: 1 1 calc(50% - 10px);
+            background-color: #f9fafc;
+            border: 1px solid #dce1e8;
+            border-radius: 0.75rem;
+            padding: 12px;
             text-align: center;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
+            color: #333;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .btn-option:hover {
-            background-color: #e7e8ec;
-            border-color: #ccc;
+        #case-options .btn-option:hover {
+            background-color: #e8ebf0;
+            border-color: #c5ccd6;
+            color: #212529;
         }
 
-        /* Flex styling to display buttons in a row */
-        .modal-body .d-flex {
-            justify-content: space-between;
-            gap: 10px;
+        /* Responsive modal width */
+        @media (min-width: 576px) {
+            .modal-sm {
+                max-width: 500px;
+            }
+        }
+
+        /* Success overlay */
+        .success-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1055;
+        }
+
+        .message-content {
+            background-color: #38a169;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 0.4s ease-in-out;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .message-content .message-icon svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .message-heading {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .message-text {
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
     @endpush
 
     <x-navbar />
-
-
-
-
-    <!-- Sweet Alert Style Success Message -->
+    
     <div id="success-message" class="success-message d-none">
         <div class="message-content">
             <div class="message-icon">
-                <!-- Checkmark Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
@@ -163,32 +160,24 @@
             </div>
         </div>
     </div>
-
     <div class="container-fluid px-4">
-
-
-
-
         <h4 class="fw-bold mb-4 mt-2">Conflict Logs</h4>
-
-
         @if (session('success'))
         <div id="successAlert" class="alert alert-success alert-dismissible fade show text-white" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
         <script>
-            setTimeout(function() {
-                var alert = document.getElementById('successAlert');
-                if (alert) {
-                    alert.classList.remove('show');
-                    alert.classList.add('fade');
-                    setTimeout(function() {
-                        alert.style.display = 'none';
-                    }, 500);
-                }
-            }, 2000);
+        setTimeout(function() {
+            var alert = document.getElementById('successAlert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 500);
+            }
+        }, 2000);
         </script>
         @endif
         <!-- Tabs -->
@@ -279,60 +268,57 @@
             @endforeach
         </div>
     </div>
-
     <!-- Modal for Selecting Case -->
     <div class="modal fade" id="selectCaseModal" tabindex="-1" aria-labelledby="selectCaseModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="selectCaseModalLabel">Select Case to Send Letter</h5>
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content shadow-sm border-0 rounded-4">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-semibold text-primary-emphasis" id="selectCaseModalLabel">
+                        <i class="bi bi-folder2-open me-2"></i>Select Case to Send Letter
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="max-height: calc(100vh - 210px); overflow-y: auto;">
-                    <p class="mb-3">Please select which case you want to send the conflict letter for:</p>
-                    <div id="case-options" class="d-flex justify-content-between gap-2">
-                        <!-- Buttons will be injected here -->
+                <div class="modal-body px-4" style="max-height: 60vh; overflow-y: auto;">
+                    <p class="mb-3 text-muted">
+                        Please select which case you want to send the conflict letter for:
+                    </p>
+                    <div id="case-options" class="d-flex flex-wrap gap-2">
+                        <!-- Dynamic case buttons will be injected here -->
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer border-top px-4">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-
     @push('script')
     <script>
-        function openCaseSelectionModal(logId, case1, case2) {
-            const optionsContainer = document.getElementById('case-options');
-            optionsContainer.innerHTML = `
+    function openCaseSelectionModal(logId, case1, case2) {
+        const optionsContainer = document.getElementById('case-options');
+        optionsContainer.innerHTML = `
                 <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case1}')">Case Number: ${case1}</button>
                 <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case2}')">Case Number: ${case2}</button>
             `;
-            const modal = new bootstrap.Modal(document.getElementById('selectCaseModal'));
-            modal.show();
-        }
+        const modal = new bootstrap.Modal(document.getElementById('selectCaseModal'));
+        modal.show();
+    }
 
-        function sendConflictLetter(logId, caseNumber) {
-            // You can replace this with an AJAX call to your backend
-            console.log(`Sending letter for Log ID: ${logId}, Case: ${caseNumber}`);
+    // function sendConflictLetter(logId, caseNumber) {
+    //     console.log(`Sending letter for Log ID: ${logId}, Case: ${caseNumber}`);
+    //     const modalEl = document.getElementById('selectCaseModal');
+    //     const modal = bootstrap.Modal.getInstance(modalEl);
+    //     modal.hide();
+    //     showSuccessMessage();
+    // }
 
-            // Close modal
-            const modalEl = document.getElementById('selectCaseModal');
-            const modal = bootstrap.Modal.getInstance(modalEl);
-            modal.hide();
-
-            // Show success message
-            showSuccessMessage();
-        }
-
-        function showSuccessMessage() {
-            const message = document.getElementById('success-message');
-            message.classList.remove('d-none');
-            setTimeout(() => message.classList.add('d-none'), 3000);
-        }
+    // function showSuccessMessage() {
+    //     const message = document.getElementById('success-message');
+    //     message.classList.remove('d-none');
+    //     setTimeout(() => message.classList.add('d-none'), 3000);
+    // }
     </script>
     @endpush
 

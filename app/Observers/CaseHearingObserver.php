@@ -7,7 +7,7 @@ use App\Services\ConflictDetectorService;
 
 class CaseHearingObserver
 {
-    protected $conflictService;
+    protected ConflictDetectorService $conflictService;
 
     public function __construct(ConflictDetectorService $conflictService)
     {
@@ -17,7 +17,7 @@ class CaseHearingObserver
     /**
      * Handle the CaseHearing "created" event.
      *
-     * @param  \App\Models\CaseHearing  $hearing
+     * @param CaseHearing $hearing
      * @return void
      */
     public function created(CaseHearing $hearing): void
@@ -29,7 +29,7 @@ class CaseHearingObserver
     /**
      * Handle the CaseHearing "updated" event.
      *
-     * @param  \App\Models\CaseHearing  $hearing
+     * @param CaseHearing $hearing
      * @return void
      */
     public function updated(CaseHearing $hearing): void
@@ -44,7 +44,7 @@ class CaseHearingObserver
     /**
      * Handle the CaseHearing "deleted" event.
      *
-     * @param  \App\Models\CaseHearing  $hearing
+     * @param CaseHearing $hearing
      * @return void
      */
     public function deleted(CaseHearing $hearing): void

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed $case_hearing_id_1
  * @property mixed $case_hearing_id_2
+ * @method static create(array $array)
  */
 class ConflictLog extends Model
 {

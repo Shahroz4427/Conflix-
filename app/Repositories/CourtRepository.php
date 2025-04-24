@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CourtRepository implements Interfaces\CourtRepositoryInterface
 {
+    /**
+     * Get all courts.
+     * 
+     * @return Collection
+     */
     public function getAll(): Collection
     {
+        // Fetch and return all courts
         return Court::all();
     }
 }
