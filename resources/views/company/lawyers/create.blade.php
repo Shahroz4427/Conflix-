@@ -1,5 +1,5 @@
 <x-app-layout>
-    
+
     <x-navbar />
 
     <div class="container-fluid py-4">

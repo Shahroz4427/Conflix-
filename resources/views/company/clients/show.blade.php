@@ -1,6 +1,6 @@
 <x-app-layout>
-    
-    <x-navbar/>
+
+    <x-navbar />
 
     <div class="container-fluid py-4">
         <h4 class="fw-bold mb-3 text-black">{{ $client->name }}</h4>

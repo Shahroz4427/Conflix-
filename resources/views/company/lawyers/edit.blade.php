@@ -1,7 +1,7 @@
 <x-app-layout>
-   
-    <x-navbar/>
-    
+
+    <x-navbar />
+
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">

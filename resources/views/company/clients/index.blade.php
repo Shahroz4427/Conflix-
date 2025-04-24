@@ -1,6 +1,6 @@
 <x-app-layout>
-   
-    <x-navbar buttonName="Add Client" buttonUrl="{{ route('company.clients.create') }}"/>
+
+    <x-navbar buttonName="Add Client" buttonUrl="{{ route('company.clients.create') }}" />
 
 
     <div class="container-fluid py-4">
@@ -18,10 +18,10 @@
                     alert.classList.remove('show');
                     alert.classList.add('fade');
                     setTimeout(function() {
-                        alert.style.display = 'none'; 
-                    }, 500); 
+                        alert.style.display = 'none';
+                    }, 500);
                 }
-            }, 2000); 
+            }, 2000);
         </script>
         @endif
 
@@ -164,23 +164,23 @@
     </div>
     @push('script')
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('clientSearch');
-        searchInput.addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const rows = document.querySelectorAll('#clientTableWrapper tbody tr');
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('clientSearch');
+            searchInput.addEventListener('input', function() {
+                const searchValue = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#clientTableWrapper tbody tr');
 
-            rows.forEach(row => {
-                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                if (name.includes(searchValue) || email.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                rows.forEach(row => {
+                    const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                    const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                    if (name.includes(searchValue) || email.includes(searchValue)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
         });
-    });
     </script>
     @endpush
 

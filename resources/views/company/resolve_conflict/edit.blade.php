@@ -33,7 +33,7 @@
             </ul>
         </div>
         @endif
-        
+
 
         <div class="row">
             <div class="col-12">

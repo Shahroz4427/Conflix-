@@ -16,15 +16,13 @@
                     alert.classList.remove('show');
                     alert.classList.add('fade');
                     setTimeout(function() {
-                        alert.style.display = 'none'; 
-                    }, 500); 
+                        alert.style.display = 'none';
+                    }, 500);
                 }
-            }, 2000); 
+            }, 2000);
         </script>
         @endif
-
-
-
+        
         {{-- Title and Add Button --}}
         <div class="row mb-2">
             <div class="col-12">

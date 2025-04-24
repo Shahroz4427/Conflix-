@@ -1,16 +1,16 @@
 <x-app-layout>
-    
+
     @push('style')
     <style>
-    .disabled-input {
-        background-color: #f5f5f5;
-        color: #6c757d;
-        border-color: #ddd;
-        pointer-events: none;
-    }
+        .disabled-input {
+            background-color: #f5f5f5;
+            color: #6c757d;
+            border-color: #ddd;
+            pointer-events: none;
+        }
     </style>
     @endpush
-   
+
     <x-navbar />
 
     <div class="container-fluid py-4">
@@ -223,18 +223,18 @@
     </div>
     @push('script')
     <script>
-    // Auto-fill Client Email and Address
-    document.getElementById('client-select').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        document.getElementById('client-email').value = selectedOption.getAttribute('data-email') || '';
-        document.getElementById('client-address').value = selectedOption.getAttribute('data-address') || '';
-    });
+        // Auto-fill Client Email and Address
+        document.getElementById('client-select').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('client-email').value = selectedOption.getAttribute('data-email') || '';
+            document.getElementById('client-address').value = selectedOption.getAttribute('data-address') || '';
+        });
 
-    // Auto-fill Lawyer Email
-    document.getElementById('lawyer-select').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        document.getElementById('lawyer-email').value = selectedOption.getAttribute('data-email') || '';
-    });
+        // Auto-fill Lawyer Email
+        document.getElementById('lawyer-select').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('lawyer-email').value = selectedOption.getAttribute('data-email') || '';
+        });
     </script>
     @endpush
 

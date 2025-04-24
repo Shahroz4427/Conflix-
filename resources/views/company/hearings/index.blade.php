@@ -98,7 +98,6 @@
         </div>
     </div>
 
-
     <!-- Edit Hearing Modal -->
     <div class="modal fade" id="editHearingModal" tabindex="-1" aria-labelledby="editHearingModalLabel"
         aria-hidden="true">

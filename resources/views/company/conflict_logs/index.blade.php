@@ -146,7 +146,7 @@
     @endpush
 
     <x-navbar />
-    
+
     <div id="success-message" class="success-message d-none">
         <div class="message-content">
             <div class="message-icon">
@@ -168,16 +168,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <script>
-        setTimeout(function() {
-            var alert = document.getElementById('successAlert');
-            if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
-                setTimeout(function() {
-                    alert.style.display = 'none';
-                }, 500);
-            }
-        }, 2000);
+            setTimeout(function() {
+                var alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }
+            }, 2000);
         </script>
         @endif
         <!-- Tabs -->
@@ -296,29 +296,29 @@
 
     @push('script')
     <script>
-    function openCaseSelectionModal(logId, case1, case2) {
-        const optionsContainer = document.getElementById('case-options');
-        optionsContainer.innerHTML = `
+        function openCaseSelectionModal(logId, case1, case2) {
+            const optionsContainer = document.getElementById('case-options');
+            optionsContainer.innerHTML = `
                 <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case1}')">Case Number: ${case1}</button>
                 <button class="btn btn-option" onclick="sendConflictLetter(${logId}, '${case2}')">Case Number: ${case2}</button>
             `;
-        const modal = new bootstrap.Modal(document.getElementById('selectCaseModal'));
-        modal.show();
-    }
+            const modal = new bootstrap.Modal(document.getElementById('selectCaseModal'));
+            modal.show();
+        }
 
-    // function sendConflictLetter(logId, caseNumber) {
-    //     console.log(`Sending letter for Log ID: ${logId}, Case: ${caseNumber}`);
-    //     const modalEl = document.getElementById('selectCaseModal');
-    //     const modal = bootstrap.Modal.getInstance(modalEl);
-    //     modal.hide();
-    //     showSuccessMessage();
-    // }
+        // function sendConflictLetter(logId, caseNumber) {
+        //     console.log(`Sending letter for Log ID: ${logId}, Case: ${caseNumber}`);
+        //     const modalEl = document.getElementById('selectCaseModal');
+        //     const modal = bootstrap.Modal.getInstance(modalEl);
+        //     modal.hide();
+        //     showSuccessMessage();
+        // }
 
-    // function showSuccessMessage() {
-    //     const message = document.getElementById('success-message');
-    //     message.classList.remove('d-none');
-    //     setTimeout(() => message.classList.add('d-none'), 3000);
-    // }
+        // function showSuccessMessage() {
+        //     const message = document.getElementById('success-message');
+        //     message.classList.remove('d-none');
+        //     setTimeout(() => message.classList.add('d-none'), 3000);
+        // }
     </script>
     @endpush
 

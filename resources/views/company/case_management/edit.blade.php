@@ -2,11 +2,11 @@
 
     @push('style')
     <style>
-    .disabled-input {
-        background-color: #f5f5f5;
-        color: #6c757d;
-        pointer-events: none;
-    }
+        .disabled-input {
+            background-color: #f5f5f5;
+            color: #6c757d;
+            pointer-events: none;
+        }
     </style>
     @endpush
 
@@ -150,7 +150,8 @@
                                         @foreach($courts as $court)
                                         <option value="{{ $court->id }}"
                                             {{ $caseManagement->court_id == $court->id ? 'selected' : '' }}>
-                                            {{ $court->name }}</option>
+                                            {{ $court->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -242,16 +243,16 @@
 
     @push('script')
     <script>
-    document.getElementById('client-select').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        document.getElementById('client-email').value = selectedOption.getAttribute('data-email') || '';
-        document.getElementById('client-address').value = selectedOption.getAttribute('data-address') || '';
-    });
+        document.getElementById('client-select').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('client-email').value = selectedOption.getAttribute('data-email') || '';
+            document.getElementById('client-address').value = selectedOption.getAttribute('data-address') || '';
+        });
 
-    document.getElementById('lawyer-select').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        document.getElementById('lawyer-email').value = selectedOption.getAttribute('data-email') || '';
-    });
+        document.getElementById('lawyer-select').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('lawyer-email').value = selectedOption.getAttribute('data-email') || '';
+        });
     </script>
     @endpush
 
